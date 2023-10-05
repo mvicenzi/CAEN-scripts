@@ -4,7 +4,7 @@ Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:
  This script prints the serial number, firmware and driver
- relaseses of V1730 digitizers and their A3818 bridges.
+ releases of V1730 digitizers and their A3818 bridges.
 
 -------------------------------------------------------------*/
 
