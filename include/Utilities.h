@@ -1,12 +1,21 @@
+/*-----------------------------------------------------------
+File: Utilities.h
+Author: M. Vicenzi (mvicenzi@bnl.gov)
+
+Description:
+ This file contains support functions shared between different scripts.
+
+-------------------------------------------------------------*/
+
 #include "CAENDigitizer.h"
 #include "CAENVMElib.h"
 #include "CAENComm.h"
 
-namespace caensoft {
+namespace utils {
 
+// check CAEN software in use
 void CheckSoftwareReleases()
 {
-  // CAEN software
   char CommSWrel[100], VMESWrel[100], DGTZSWrel[100];
   int retcod = CAEN_DGTZ_SWRelease( DGTZSWrel );
   retcod = CAENVME_SWRelease( VMESWrel );

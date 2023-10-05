@@ -1,3 +1,13 @@
+/*-----------------------------------------------------------
+File: CAENStatus.cc
+Author: M. Vicenzi (mvicenzi@bnl.gov)
+
+Description:
+ This script prints the acquisition status, failure status
+ and channel status of V1730 digitizers. 
+
+-------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <cstring>
@@ -9,8 +19,8 @@
 #include "BoardDB.h"
 #include "Utilities.h"
 
-void PrintAcquisitionStatusLegend(){
-
+void PrintAcquisitionStatusLegend()
+{
   std::cout << "*** Status legend: " << std::endl;
   std::cout << "RUN  : 0=stopped, 1=running" <<std::endl;
   std::cout << "DRDY : 0=data not available, 1=data ready" << std::endl;
@@ -21,11 +31,12 @@ void PrintAcquisitionStatusLegend(){
   std::cout << "SHUT : 0=channels ON, 1=channels shutdown" << std::endl;
 }
 
-void GetAcquisitionStatus(int fHandle){
-
+void GetAcquisitionStatus(int fHandle)
+{
   uint32_t data;
   auto retcod = CAEN_DGTZ_ReadRegister(fHandle,CAEN_DGTZ_ACQ_STATUS_ADD,&data);
-  if ( retcod == CAEN_DGTZ_Success ){
+  if ( retcod == CAEN_DGTZ_Success )
+  {
     bool run  = data & 0x0004;
     bool drdy = data & 0x0008;
     bool full = data & 0x0010;
@@ -43,25 +54,24 @@ void GetAcquisitionStatus(int fHandle){
     std::cout << "  SHUT : " << shut << std::endl;
   }
   else std::cout << "    [ERROR] CAEN_DGTZ_ACQ_STATUS " << retcod << std::endl;
-
 }
 
-void PrintFailureStatusLegend(){
-
+void PrintFailureStatusLegend()
+{
   std::cout << "*** Failure legend: " << std::endl;
   std::cout << "PLL  : PLL lock loss" << std::endl;
   std::cout << "TEMP : Temperature failure" << std::endl;
   std::cout << "ADC  : ADC power down" << std::endl;
   std::cout << "BUS  : VME bus error" << std::endl;
-
 }
 
-void GetFailureStatus(int fHandle){
-
+void GetFailureStatus(int fHandle)
+{
   uint32_t data;
   bool pll=0, temp=0, adc=0, bus=0;
   auto retcod = CAEN_DGTZ_ReadRegister(fHandle,0x8178,&data);
-  if ( retcod == CAEN_DGTZ_Success ){
+  if ( retcod == CAEN_DGTZ_Success )
+  {
     pll = data & 0x0010;
     temp = data & 0x0020;
     adc = data & 0x0040; 
@@ -69,7 +79,8 @@ void GetFailureStatus(int fHandle){
   else std::cout << "    [ERROR] CAEN_DGTZ_FAILURE_STATUS " << retcod << std::endl;
   
   retcod = CAEN_DGTZ_ReadRegister(fHandle,0xEF04,&data);
-  if( retcod == CAEN_DGTZ_Success ){
+  if( retcod == CAEN_DGTZ_Success )
+  {
     bus = data & 0x0004;
   }
   else std::cout << "\n    [ERROR] CAEN_DGTZ_READOUT_STATUS " << retcod << std::endl; 
@@ -79,8 +90,8 @@ void GetFailureStatus(int fHandle){
 }
 
 
-void PrintChannelStatusLegend(){
-    
+void PrintChannelStatusLegend()
+{   
   std::cout << "*** Channel status legend: " << std::endl;
   std::cout << "BUSY : 0=memory not full, 1=memory full" << std::endl;
   std::cout << "DAC  : 0=DC offset update, 1=busy" << std::endl;
@@ -89,15 +100,15 @@ void PrintChannelStatusLegend(){
   std::cout << "TEMP : ADC temperature in Celsius" << std::endl;
 }
 
-void GetChannelStatus(int fHandle){
-
+void GetChannelStatus(int fHandle)
+{
   uint32_t ch_temps[MAX_CHANNELS];
   uint32_t ch_status[MAX_CHANNELS]; 
   uint32_t maxT = 0;
 
 
-  for(size_t ch =0; ch<MAX_CHANNELS; ch++){
-  
+  for(size_t ch =0; ch<MAX_CHANNELS; ch++)
+  { 
     auto err = CAEN_DGTZ_ReadTemperature(fHandle, ch, &(ch_temps[ch]));
     if( err != CAEN_DGTZ_Success )
       std::cout << "    [ERROR] CAEN_DGTZ_ReadTemperature ch " << ch << " " << err << std::endl; 
@@ -112,16 +123,16 @@ void GetChannelStatus(int fHandle){
 
   std::cout << "    Max Temp. [C]: " << maxT << std::endl;
   
-  for(size_t ch =0; ch<MAX_CHANNELS; ch++){
-  
-  bool full = ch_status[ch] & 0x1;
-  bool dac = ch_status[ch] & 0x4;
-  bool adc = ch_status[ch] & 0x8;
-  bool off = ch_status[ch] & 0x100;
+  for(size_t ch =0; ch<MAX_CHANNELS; ch++)
+  { 
+    bool full = ch_status[ch] & 0x1;
+    bool dac = ch_status[ch] & 0x4;
+    bool adc = ch_status[ch] & 0x8;
+    bool off = ch_status[ch] & 0x100;
  
-  if( full || dac || !adc || off ) 
-    printf("     Ch:%d  BUSY:%d  DAC:%d  ADC:%d  OFF:%d  TEMP:%d\n",
-               ch, full, dac, adc, off, ch_temps[ch]);
+    if( full || dac || !adc || off ) 
+      printf("     Ch:%d  BUSY:%d  DAC:%d  ADC:%d  OFF:%d  TEMP:%d\n",
+                 ch, full, dac, adc, off, ch_temps[ch]);
   }
 }
 
@@ -132,10 +143,11 @@ int main(int argc, char **argv)
   int retcod, link, board, handle;
   board = 0; // Can be 0...7, but we only use one per optical chain
   
-  caensoft::CheckSoftwareReleases();
+  utils::CheckSoftwareReleases();
   PrintAcquisitionStatusLegend();
   PrintFailureStatusLegend();
   PrintChannelStatusLegend();
+  std::cout << "==============================" << std::endl;
   
   boardDB::V1730 boards[N_LINKS];
   boardDB::GetListOfBoards(boards);
@@ -151,17 +163,15 @@ int main(int argc, char **argv)
     
     retcod = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink,
 				     link, board, 0, &handle);
-    if( retcod == CAEN_DGTZ_Success){ 
-
+    if( retcod == CAEN_DGTZ_Success)
+    { 
       GetAcquisitionStatus(handle);
       GetFailureStatus(handle);
       GetChannelStatus(handle);
 
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else{
-      std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;      
-    }
+    else std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;
   }
 
 }

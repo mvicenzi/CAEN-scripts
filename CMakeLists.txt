@@ -33,11 +33,5 @@ target_link_libraries(CAENBoardInfo PUBLIC CAENComm CAENVME CAENDigitizer)
 add_executable(CAENStatus src/CAENStatus.cc)
 target_link_libraries(CAENStatus PUBLIC CAENComm CAENVME CAENDigitizer) 
 
-#add_executable(checkBridge stolenBridgeUpgrade.cc)
-#target_link_libraries(checkBridge PUBLIC CAENComm CAENVME CAENDigitizer) 
-
-#add_executable(CAENStatus CAENStatus.cc)
-#target_link_libraries(CAENStatus PUBLIC CAENComm CAENVME CAENDigitizer)
-
-#add_executable(checkCAENStatus checkCAENStatus.cc)
-#target_link_libraries(checkCAENStatus PUBLIC CAENComm CAENVME CAENDigitizer)
+add_executable(CAENReset src/CAENReset.cc)
+target_link_libraries(CAENReset PUBLIC CAENComm CAENVME CAENDigitizer)

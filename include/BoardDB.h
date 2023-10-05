@@ -1,18 +1,27 @@
+/*-----------------------------------------------------------
+File: BoardDB.h
+Author: M. Vicenzi (mvicenzi@bnl.gov)
+
+Description:
+ This file stores the association between servers, optical links,
+ V1730 digitizers and fragment ids in the ICARUS DAQ system.
+
+-------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <cstring>
 #include <iostream>
 
-/*--------------------------------------------------------*/
-// DATA STRUCTURES: SERVER, LINKS, BOARDS, FRAGMENTS
-
+// constant parameters for CAEN V1730
 #define N_LINKS 8
 #define MAX_CHANNELS 16
 
 namespace boardDB {
 
 // structure for board-info
-struct V1730 {
+struct V1730 
+{
   int link;
   char name[100];
   int boardID;
@@ -59,11 +68,11 @@ V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, wwbot01, wwbot02, wwbot03, w
 V1730 server02[N_LINKS]{ wetop03, webot01, webot02, webot03, ewtop01, ewtop02, ewtop03, ewbot01 };
 V1730 server03[N_LINKS]{ ewbot02, ewbot03, eetop01, eetop02, eetop03, eebot01, eebot02, eebot03 };
 
-void GetListOfBoards(V1730 (&boards)[N_LINKS]) {
- 
+// get list of V1730 boards connected to the current host
+void GetListOfBoards(V1730 (&boards)[N_LINKS])
+{
   char hostname[100];
   int ret = gethostname(hostname, sizeof(hostname));
-  std::cout << "==============================" << std::endl;
   std::cout << "You are currently on " << hostname << std::endl;
 
   if (strcmp(hostname,"icarus-pmt01")==0)
@@ -72,7 +81,8 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS]) {
     memcpy(boards, server02, sizeof(server02));
   else if (strcmp(hostname,"icarus-pmt03.fnal.gov")==0)
     memcpy(boards, server03, sizeof(server03));
-  else {
+  else 
+  {
     std::cout << "****** no V1730 digitizers in DB for this server (" << hostname << ") ******" << std::endl;
     return;
   }

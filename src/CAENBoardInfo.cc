@@ -1,3 +1,13 @@
+/*-----------------------------------------------------------
+File: CAENBoardInfo.cc
+Author: M. Vicenzi (mvicenzi@bnl.gov)
+
+Description:
+ This script prints the serial number, firmware and driver
+ relaseses of V1730 digitizers and their A3818 bridges.
+
+-------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <cstring>
@@ -9,14 +19,15 @@
 #include "Utilities.h"
 #include "BoardDB.h"
 
-void GetBoardInfo(int fHandle, int fLink){
-
+void GetBoardInfo(int fHandle, int fLink)
+{
   int retcod=0;
   CAEN_DGTZ_BoardInfo_t info;
 
   // digitizer FIRMWARE
   retcod = CAEN_DGTZ_GetInfo(fHandle,&info);
-  if( retcod == CAEN_DGTZ_Success ){
+  if( retcod == CAEN_DGTZ_Success )
+  {
     std::cout << "    " << info.ModelName << " S/N: " << info.SerialNumber 
               << "\n    Firmware ROC: " << info.ROC_FirmwareRel 
               << "\n    Firmware AMC: " << info.AMC_FirmwareRel << std::endl;
@@ -28,8 +39,8 @@ void GetBoardInfo(int fHandle, int fLink){
   int32_t BHandle;
  
   auto errcode = CAENVME_Init2(cvA3818, &fLink, Device, &BHandle);
-  if( errcode == cvSuccess ) {
-  
+  if( errcode == cvSuccess ) 
+  {
     char fwrev[100];
     char drrev[100];
     
@@ -57,7 +68,7 @@ int main(int argc, char **argv)
   board = 0; // Can be 0...7, but we only use one per optical chain
   
   // CAEN software
-  caensoft::CheckSoftwareReleases();
+  utils::CheckSoftwareReleases();
 
   boardDB::V1730 boards[N_LINKS];
   boardDB::GetListOfBoards(boards);
@@ -73,14 +84,12 @@ int main(int argc, char **argv)
     
     retcod = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink,
 				     link, board, 0, &handle);
-    if( retcod == CAEN_DGTZ_Success){ 
-      std::cout << "    -- Board info:" << std::endl;
+    if( retcod == CAEN_DGTZ_Success)
+    { 
       GetBoardInfo(handle, link);
       CAEN_DGTZ_CloseDigitizer(handle); 
-   }
-    else{
-      std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;      
     }
+    else std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;
   }
 
 }
