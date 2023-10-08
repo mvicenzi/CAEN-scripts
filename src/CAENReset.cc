@@ -21,8 +21,8 @@ int main(int argc, char **argv)
   
   if ( argc < 2 )
   {
-    std::cout << "****** missing input parameters *****" << std::endl;
-    std::cout << "Usage:   CAENReset [link 0] [link 1] [link 2] ..." << std::endl;
+    printf("****** missing input parameters *****\n"
+           "Usage:   CAENReset [link 0] [link 1] [link 2] ...\n");
     return 1;
   }
   
@@ -38,14 +38,14 @@ int main(int argc, char **argv)
     { 
       retcod = CAEN_DGTZ_Reset(handle);
       if ( retcod != CAEN_DGTZ_Success )
-        std::cout << "[ERROR] CAEN_DGTZ_Reset " << retcod << std::endl;
+        printf("[ERROR] CAEN_DGTZ_Reset %d\n",retcod);
       
-      std::cout << "Link " << link << " (" << boards[link].name << ") is resetting" << std::endl;
+      printf("Link %d (%s) is resetting\n",link, boards[link].name);
       sleep(0.1);
       
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;      
+    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %s\n", retcod);      
   }
 
 }

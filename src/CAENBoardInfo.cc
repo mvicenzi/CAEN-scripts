@@ -9,9 +9,7 @@ Description:
 -------------------------------------------------------------*/
 
 #include <stdio.h>
-#include <unistd.h>
-#include <cstring>
-#include <iostream>
+#include <stdlib.h>
 
 #include "CAENDigitizerType.h"
 #include "CAENVMEtypes.h"
@@ -28,11 +26,12 @@ void GetBoardInfo(int fHandle, int fLink)
   retcod = CAEN_DGTZ_GetInfo(fHandle,&info);
   if( retcod == CAEN_DGTZ_Success )
   {
-    std::cout << "    " << info.ModelName << " S/N: " << info.SerialNumber 
-              << "\n    Firmware ROC: " << info.ROC_FirmwareRel 
-              << "\n    Firmware AMC: " << info.AMC_FirmwareRel << std::endl;
+    printf("    %s S/N: %d\n"
+           "    Firmware ROC: %s\n"
+           "    Firmware AMC: %s\n",
+           info.ModelName, info.SerialNumber, info.ROC_FirmwareRel, info.AMC_FirmwareRel);
   }
-  else std::cout << "[ERROR] CAEN_DGTZ_GetInfo " << retcod << std::endl;
+  else printf("[ERROR] CAEN_DGTZ_GetInfo %d\n",retcod);
 
   // A3818 Firmware / Driver
   short Device = 0;
@@ -45,18 +44,18 @@ void GetBoardInfo(int fHandle, int fLink)
     char drrev[100];
     
     auto ret = CAENVME_BoardFWRelease(BHandle,fwrev);
-    std::cout << "    A3818 firmware: ";
-    if (!ret) std::cout << fwrev << std::endl;
-    else std::cout << CAENVME_DecodeError(ret) << std::endl;
+    printf("    A3818 firmware: ");
+    if (!ret) printf("%s\n",fwrev);
+    else printf("%s\n",CAENVME_DecodeError(ret));
     
     ret = CAENVME_DriverRelease( BHandle, drrev );
-    std::cout << "    A3818 driver: ";
-    if (!ret) std::cout << drrev << std::endl;
-    else std::cout << CAENVME_DecodeError(ret) << std::endl;
+    printf("    A3818 driver: ");
+    if (!ret) printf("%s\n",drrev);
+    else printf("%s\n",CAENVME_DecodeError(ret));
    
     CAENVME_End(BHandle);
   }
-  else std::cout << "[ERROR] CAENVME_Init2 to cvA3818 " << CAENVME_DecodeError(errcode) << std::endl; 
+  else printf("[ERROR] CAENVME_Init2 to cvA3818 %s\n",CAENVME_DecodeError(errcode)); 
 
 }
 
@@ -77,10 +76,9 @@ int main(int argc, char **argv)
   {
     link = boards[i].link;
 
-    std::cout << "----------------------" << std::endl; 
-    std::cout << "Optical link: " << link << " - " << boards[i].name
-              << " (fragmentID: " << boards[i].fragmentID 
-              << ", boardID: " << boards[i].boardID << ") " << std::endl;
+    printf("----------------------\n" 
+           "Optical link: %d - %s (fragmentID: %d, boardID: %d)\n",
+            link, boards[i].name, boards[i].fragmentID, boards[i].boardID);
     
     retcod = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink,
 				     link, board, 0, &handle);
@@ -89,7 +87,7 @@ int main(int argc, char **argv)
       GetBoardInfo(handle, link);
       CAEN_DGTZ_CloseDigitizer(handle); 
     }
-    else std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;
+    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n",retcod);
   }
 
 }

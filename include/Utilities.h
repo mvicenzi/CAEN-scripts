@@ -20,12 +20,13 @@ void CheckSoftwareReleases()
   int retcod = CAEN_DGTZ_SWRelease( DGTZSWrel );
   retcod = CAENVME_SWRelease( VMESWrel );
   retcod = CAENComm_SWRelease( CommSWrel );
-  std::cout << "==============================" << std::endl;
-  std::cout << "CAEN software releases"
-                  << "\nCAENDGTZ: " << DGTZSWrel
-                  << "\nCAENVME: " << VMESWrel
-                  << "\nCAENComm: " << CommSWrel << std::endl;
-  std::cout << "==============================" << std::endl;
+  printf("==============================\n"
+         "CAEN software releases\n"
+         "CAENDGTZ: %s\n"
+         "CAENVME: %s\n"
+         "CAENComm: %s\n"
+         "==============================\n",
+         DGTZSWrel, VMESWrel, CommSWrel);
 }
 
 }

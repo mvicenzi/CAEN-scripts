@@ -11,7 +11,6 @@ Description:
 #include <stdio.h>
 #include <unistd.h>
 #include <cstring>
-#include <iostream>
 
 // constant parameters for CAEN V1730
 #define N_LINKS 8
@@ -73,7 +72,7 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS])
 {
   char hostname[100];
   int ret = gethostname(hostname, sizeof(hostname));
-  std::cout << "You are currently on " << hostname << std::endl;
+  printf("You are currently on %s\n",hostname);
 
   if (strcmp(hostname,"icarus-pmt01")==0)
     memcpy(boards, server01, sizeof(server01));
@@ -83,7 +82,7 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS])
     memcpy(boards, server03, sizeof(server03));
   else 
   {
-    std::cout << "****** no V1730 digitizers in DB for this server (" << hostname << ") ******" << std::endl;
+    printf("****** no V1730 digitizers in DB for this server (%s) ******",hostname);
     return;
   }
 }

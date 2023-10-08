@@ -9,9 +9,7 @@ Description:
 -------------------------------------------------------------*/
 
 #include <stdio.h>
-#include <unistd.h>
-#include <cstring>
-#include <iostream>
+#include <stdlib.h>
 
 #include "CAENDigitizerType.h"
 #include "CAENVMEtypes.h"
@@ -21,14 +19,14 @@ Description:
 
 void PrintAcquisitionStatusLegend()
 {
-  std::cout << "*** Status legend: " << std::endl;
-  std::cout << "RUN  : 0=stopped, 1=running" <<std::endl;
-  std::cout << "DRDY : 0=data not available, 1=data ready" << std::endl;
-  std::cout << "BUSY : 0=board not full, 1=board full" << std::endl;
-  std::cout << "CLK  : 0=internal, 1=external CLK-IN" << std::endl;
-  std::cout << "PLL  : 0=PLL unlock, 1=PLL lock" << std::endl;
-  std::cout << "RDY  : 0=not ready, 1=ready for data" << std::endl;
-  std::cout << "SHUT : 0=channels ON, 1=channels shutdown" << std::endl;
+  printf("*** Status legend:\n"
+         "RUN  : 0=stopped, 1=running\n"
+         "DRDY : 0=data not available, 1=data ready\n"
+         "BUSY : 0=board not full, 1=board full\n"
+         "CLK  : 0=internal, 1=external CLK-IN\n"
+         "PLL  : 0=PLL unlock, 1=PLL lock\n"
+         "RDY  : 0=not ready, 1=ready for data\n"
+         "SHUT : 0=channels ON, 1=channels shutdown\n");
 }
 
 void GetAcquisitionStatus(int fHandle)
@@ -45,24 +43,19 @@ void GetAcquisitionStatus(int fHandle)
     bool rdy  = data & 0x0100;
     bool shut = data & 0x80000;   
 
-    std::cout << "    RUN  : " << run;
-    std::cout << "  DRDY : " << clk; 
-    std::cout << "  BUSY : " << full;
-    std::cout << "  CLK  : " << clk;
-    std::cout << "  PLL  : " << pll;
-    std::cout << "  RDY  : " << rdy;
-    std::cout << "  SHUT : " << shut << std::endl;
+    printf("Status     RUN: %d  DRDY: %d  BUSY: %d  CLK: %d  PLL: %d  RDY: %d  SHUT: %d\n",
+           run, drdy, full, clk, pll, rdy, shut);
   }
-  else std::cout << "    [ERROR] CAEN_DGTZ_ACQ_STATUS " << retcod << std::endl;
+  else printf("    [ERROR] CAEN_DGTZ_ACQ_STATUS %d\n", retcod);
 }
 
 void PrintFailureStatusLegend()
 {
-  std::cout << "*** Failure legend: " << std::endl;
-  std::cout << "PLL  : PLL lock loss" << std::endl;
-  std::cout << "TEMP : Temperature failure" << std::endl;
-  std::cout << "ADC  : ADC power down" << std::endl;
-  std::cout << "BUS  : VME bus error" << std::endl;
+  printf("*** Failure legend:\n"
+         "PLL  : PLL lock loss\n"
+         "TEMP : Temperature failure\n"
+         "ADC  : ADC power down\n"
+         "BUS  : VME bus error\n");
 }
 
 void GetFailureStatus(int fHandle)
@@ -76,28 +69,28 @@ void GetFailureStatus(int fHandle)
     temp = data & 0x0020;
     adc = data & 0x0040; 
   } 
-  else std::cout << "    [ERROR] CAEN_DGTZ_FAILURE_STATUS " << retcod << std::endl;
+  else printf("    [ERROR] CAEN_DGTZ_FAILURE_STATUS %d\n",retcod);
   
   retcod = CAEN_DGTZ_ReadRegister(fHandle,0xEF04,&data);
   if( retcod == CAEN_DGTZ_Success )
   {
     bus = data & 0x0004;
   }
-  else std::cout << "\n    [ERROR] CAEN_DGTZ_READOUT_STATUS " << retcod << std::endl; 
+  else printf("    [ERROR] CAEN_DGTZ_READOUT_STATUS %d\n",retcod); 
   
   if( pll || temp || adc || bus ) 
-      std::cout << "    PLL  : " << pll << "  TEMP : " << temp << "  ADC  : " << adc << " BUS  : " << bus << std::endl; 
+      printf("Failure    PLL: %d  TEMP: %d  ADC: %d  BUS: %d\n", pll, temp, adc, bus); 
 }
 
 
 void PrintChannelStatusLegend()
 {   
-  std::cout << "*** Channel status legend: " << std::endl;
-  std::cout << "BUSY : 0=memory not full, 1=memory full" << std::endl;
-  std::cout << "DAC  : 0=DC offset update, 1=busy" << std::endl;
-  std::cout << "ADC  : 0=not calibrated, 1=calibrated" << std::endl;
-  std::cout << "OFF  : 0=on, 1=off" << std::endl;
-  std::cout << "TEMP : ADC temperature in Celsius" << std::endl;
+  printf("*** Channel status legend:\n"
+         "BUSY : 0=memory not full, 1=memory full\n"
+         "DAC  : 0=DC offset update, 1=busy\n"
+         "ADC  : 0=not calibrated, 1=calibrated\n"
+         "OFF  : 0=on, 1=off\n"
+         "TEMP : ADC temperature in Celsius\n");
 }
 
 void GetChannelStatus(int fHandle)
@@ -111,17 +104,17 @@ void GetChannelStatus(int fHandle)
   { 
     auto err = CAEN_DGTZ_ReadTemperature(fHandle, ch, &(ch_temps[ch]));
     if( err != CAEN_DGTZ_Success )
-      std::cout << "    [ERROR] CAEN_DGTZ_ReadTemperature ch " << ch << " " << err << std::endl; 
+      printf("    [ERROR] CAEN_DGTZ_ReadTemperature ch %d %d\n", ch, err); 
     if( ch_temps[ch] > maxT ) maxT = ch_temps[ch];
 
     uint32_t chStatusAddr = 0x1088 + (ch<<8);
     auto ret = CAEN_DGTZ_ReadRegister(fHandle, chStatusAddr, &(ch_status[ch]));
     if( err != CAEN_DGTZ_Success )
-      std::cout << "    [ERROR] CAEN_DGTZ_ReadChannelStatus ch " << ch << " " << err << std::endl; 
+      printf("    [ERROR] CAEN_DGTZ_ReadChannelStatus ch %d %d", ch, err); 
   
   }
 
-  std::cout << "    Max Temp. [C]: " << maxT << std::endl;
+  printf("    Max Temp. [C]: %d\n", maxT);
   
   for(size_t ch =0; ch<MAX_CHANNELS; ch++)
   { 
@@ -131,7 +124,7 @@ void GetChannelStatus(int fHandle)
     bool off = ch_status[ch] & 0x100;
  
     if( full || dac || !adc || off ) 
-      printf("     Ch:%d  BUSY:%d  DAC:%d  ADC:%d  OFF:%d  TEMP:%d\n",
+      printf("     Ch: %d  BUSY: %d  DAC: %d  ADC: %d  OFF: %d  TEMP: %d\n",
                  ch, full, dac, adc, off, ch_temps[ch]);
   }
 }
@@ -140,14 +133,20 @@ void GetChannelStatus(int fHandle)
 
 int main(int argc, char **argv)
 {
+  
+  int verbosity = 1;
+  if ( argc > 1 ) verbosity = atoi(argv[1]);
+
   int retcod, link, board, handle;
   board = 0; // Can be 0...7, but we only use one per optical chain
-  
-  utils::CheckSoftwareReleases();
-  PrintAcquisitionStatusLegend();
-  PrintFailureStatusLegend();
-  PrintChannelStatusLegend();
-  std::cout << "==============================" << std::endl;
+ 
+  if ( verbosity > 0 ){ 
+    utils::CheckSoftwareReleases();
+    PrintAcquisitionStatusLegend();
+    PrintFailureStatusLegend();
+    PrintChannelStatusLegend();
+  }
+  printf("==============================\n");
   
   boardDB::V1730 boards[N_LINKS];
   boardDB::GetListOfBoards(boards);
@@ -156,10 +155,9 @@ int main(int argc, char **argv)
   {
     link = boards[i].link;
 
-    std::cout << "----------------------" << std::endl; 
-    std::cout << "Optical link: " << link << " - " << boards[i].name
-              << " (fragmentID: " << boards[i].fragmentID 
-              << ", boardID: " << boards[i].boardID << ") " << std::endl;
+    printf("----------------------\n" 
+           "Optical link: %d - %s (fragmentID: %d, boardID: %d)\n",
+            link, boards[i].name, boards[i].fragmentID, boards[i].boardID);
     
     retcod = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink,
 				     link, board, 0, &handle);
@@ -171,7 +169,7 @@ int main(int argc, char **argv)
 
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else std::cout << "[ERROR] CAEN_DGTZ_OpenDigitizer " << retcod << std::endl;
+    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n", retcod);
   }
 
 }
