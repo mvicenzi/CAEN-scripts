@@ -6,6 +6,10 @@ Scripts to check status and perform simple operations on CAEN V1730 digitizers.
 * `CAENReset.cc` sends a software reset signal to V1730 digitizers. All internal registers and states are restored to default values.
 * `CAENClockOut.cc` configures V1730 digitizers to route their internal clocks to TRGOUT for diagnosis.
 
+In addition, the following scripts can be used to run the pre-compiled executable on all PMT servers at one:
+* `run_CAENStatus_all.sh`
+* `run_CAENReset_all.sh`
+
 ## Instructions
 `CAENDigitizer`, `CAENComm` and `CAENVMElib` libraries are required. 
 These are available on ICARUS DAQ clusters after setting up a DAQ development area with the usual instructions.
