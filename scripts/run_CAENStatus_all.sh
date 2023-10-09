@@ -4,7 +4,7 @@
 ## This is done by using CAENStatus. Default verbosity is 0 (no legend is shown).
 
 verbosity=0
-if [ $# -gt 1 ]; then 
+if [ $# -gt 0 ]; then 
   verbosity=$1
 fi
 
