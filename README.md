@@ -5,6 +5,7 @@ Scripts to check status and perform simple operations on CAEN V1730 digitizers.
 * `CAENStatus.cc` prints the acquisition status, board failure status and channel status of V1730 digitizers. 
 * `CAENReset.cc` sends a software reset signal to V1730 digitizers. All internal registers and states are restored to default values.
 * `CAENClockOut.cc` configures V1730 digitizers to route their internal clocks to TRGOUT for diagnosis.
+* `CAENClockPhaseOut.cc` configures V1730 digitizers to route their internal clock phases to TRGOUT for diagnosis.
 
 In addition, the following scripts can be used to run the pre-compiled executable on all PMT servers at one:
 * `run_CAENStatus_all.sh`

@@ -38,3 +38,6 @@ target_link_libraries(CAENReset PUBLIC CAENComm CAENVME CAENDigitizer)
 
 add_executable(CAENClockOut src/CAENClockOut.cc)
 target_link_libraries(CAENClockOut PUBLIC CAENComm CAENVME CAENDigitizer)
+
+add_executable(CAENClockPhaseOut src/CAENClockPhaseOut.cc)
+target_link_libraries(CAENClockPhaseOut PUBLIC CAENComm CAENVME CAENDigitizer)
