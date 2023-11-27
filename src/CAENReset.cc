@@ -36,13 +36,17 @@ int main(int argc, char **argv)
 				     link, board, 0, &handle);
     if( retcod == CAEN_DGTZ_Success)
     { 
+      printf("Link %d (%s) is resetting\n",link, boards[link].name);
+      
       retcod = CAEN_DGTZ_Reset(handle);
       if ( retcod != CAEN_DGTZ_Success )
         printf("[ERROR] CAEN_DGTZ_Reset %d\n",retcod);
       
-      printf("Link %d (%s) is resetting\n",link, boards[link].name);
-      sleep(0.1);
-      
+      retcod = CAEN_DGTZ_ClearData(handle);      
+      if ( retcod != CAEN_DGTZ_Success )
+	printf("[ERROR] CAEN_DGTZ_ClearData %d\n",retcod);
+
+      sleep(0.1);   
       CAEN_DGTZ_CloseDigitizer(handle);
     }
     else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %s\n", retcod);      
