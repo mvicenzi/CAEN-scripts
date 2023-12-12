@@ -61,11 +61,13 @@ const V1730 wwbot03(5,"icaruspmtwwbot03",5,8197);
 const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192);
 const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193);
 const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194);
+const V1730 empty(0,"",0,0);
 
 // server DB
 V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, wwbot01, wwbot02, wwbot03, wetop01, wetop02 };
 V1730 server02[N_LINKS]{ wetop03, webot01, webot02, webot03, ewtop01, ewtop02, ewtop03, ewbot01 };
 V1730 server03[N_LINKS]{ ewbot02, ewbot03, eetop01, eetop02, eetop03, eebot01, eebot02, eebot03 };
+V1730 noserver[N_LINKS]{ empty, empty, empty, empty, empty, empty, empty, empty };
 
 // get list of V1730 boards connected to the current host
 void GetListOfBoards(V1730 (&boards)[N_LINKS])
@@ -82,7 +84,8 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS])
     memcpy(boards, server03, sizeof(server03));
   else 
   {
-    printf("****** no V1730 digitizers in DB for this server (%s) ******",hostname);
+    memcpy(boards, noserver, sizeof(noserver));
+    printf("****** no V1730 digitizers in DB for this server (%s) ******\n",hostname);
     return;
   }
 }
