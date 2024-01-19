@@ -28,7 +28,7 @@ int main(int argc, char **argv)
   
   boardDB::V1730 boards[N_LINKS];
   boardDB::GetListOfBoards(boards);
-  
+ 
   for (int i=1; i<argc; i++)
   {
     link = atoi(argv[i]); 
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
       sleep(0.1);   
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %s\n", retcod);      
-  }
+    else printf("[ERROR] Link %d CAEN_DGTZ_OpenDigitizer %d\n", link, retcod);      
+ }
 
 }

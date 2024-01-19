@@ -47,6 +47,6 @@ int main(int argc, char **argv)
       
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n", retcod);      
+    else printf("[ERROR] Link %d CAEN_DGTZ_OpenDigitizer %d\n", link, retcod);      
   }
 }
