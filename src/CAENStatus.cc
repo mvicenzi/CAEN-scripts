@@ -93,12 +93,11 @@ void PrintChannelStatusLegend()
          "TEMP : ADC temperature in Celsius\n");
 }
 
-void GetChannelStatus(int fHandle)
+void GetChannelStatus(int fHandle, int verbosity)
 {
   uint32_t ch_temps[MAX_CHANNELS];
   uint32_t ch_status[MAX_CHANNELS]; 
   uint32_t maxT = 0;
-
 
   for(size_t ch =0; ch<MAX_CHANNELS; ch++)
   { 
@@ -116,14 +115,15 @@ void GetChannelStatus(int fHandle)
 
   printf("    Max Temp. [C]: %d\n", maxT);
   
+  bool verb = verbosity > 1; 
   for(size_t ch =0; ch<MAX_CHANNELS; ch++)
   { 
     bool full = ch_status[ch] & 0x1;
     bool dac = ch_status[ch] & 0x4;
     bool adc = ch_status[ch] & 0x8;
     bool off = ch_status[ch] & 0x100;
- 
-    if( full || dac || !adc || off ) 
+   
+    if( full || dac || !adc || off || verb ) 
       printf("     Ch: %d  BUSY: %d  DAC: %d  ADC: %d  OFF: %d  TEMP: %d\n",
                  ch, full, dac, adc, off, ch_temps[ch]);
   }
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
     { 
       GetAcquisitionStatus(handle);
       GetFailureStatus(handle);
-      GetChannelStatus(handle);
+      GetChannelStatus(handle,verbosity);
 
       CAEN_DGTZ_CloseDigitizer(handle);
     }
