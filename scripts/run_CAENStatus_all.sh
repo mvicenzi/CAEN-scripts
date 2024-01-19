@@ -2,6 +2,8 @@
 
 ## This script checks the status of CAEN digitizers across all servers.
 ## This is done by using CAENStatus. Default verbosity is 0 (no legend is shown).
+## Verbosity 1 prints software releases and legend. V
+## Verbosity 2 prints status for all channels.
 
 verbosity=0
 if [ $# -gt 0 ]; then 

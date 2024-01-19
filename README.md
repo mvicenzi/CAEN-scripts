@@ -4,7 +4,7 @@ Scripts to check status and perform simple operations on CAEN V1730 digitizers.
 * `CAENBoardInfo.cc` prints the serial number, firmware and driver releases of V1730 digitizers and their A3818 bridges.
 * `CAENStatus.cc` prints the acquisition status, board failure status and channel status of V1730 digitizers. 
 * `CAENReset.cc` sends a software reset signal to V1730 digitizers. All internal registers and states are restored to default values. Data buffers are cleared.
-* `CAENBridgeReset.cc` sends a software reset signal to the A3818 VME bridge. (_NEEDS TESTING!_)
+* `CAENBridgeReset.cc` sends a software reset signal to the A3818 VME bridge.
 * `CAENClockOut.cc` configures V1730 digitizers to route their internal clocks to TRGOUT for diagnosis.
 * `CAENClockPhaseOut.cc` configures V1730 digitizers to route their internal clock phases to TRGOUT for diagnosis.
 
