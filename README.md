@@ -7,6 +7,7 @@ Scripts to check status and perform simple operations on CAEN V1730 digitizers.
 * `CAENBridgeReset.cc` sends a software reset signal to the A3818 VME bridge.
 * `CAENClockOut.cc` configures V1730 digitizers to route their internal clocks to TRGOUT for diagnosis.
 * `CAENClockPhaseOut.cc` configures V1730 digitizers to route their internal clock phases to TRGOUT for diagnosis.
+* `CAENReadRegister.cc` prints the values of the list of registers provided in input.
 
 In addition, the following scripts can be used to run the pre-compiled executable on all PMT servers at once:
 * `run_CAENStatus_all.sh`
