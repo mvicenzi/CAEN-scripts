@@ -13,6 +13,29 @@ Description:
 #include "BoardDB.h"
 #include "Utilities.h"
 
+
+void print_binary(uint32_t value)
+{
+
+  printf("0b");
+  bool start = false;
+
+  // Loop through each bit (32 bits for uint32_t)
+  for (int i = 31; i >= 0; i--)
+  {
+    // check i-th bit
+    if(value & (1U << i))
+    {  
+      printf("1");
+      start = true;
+    }
+    else if (start) printf("0");
+  }
+  
+  if(!start) printf("0");
+  printf(" (bin)");
+}
+
 int main(int argc, char **argv)
 {
   int retcod, link, board, handle;
@@ -46,7 +69,14 @@ int main(int argc, char **argv)
 
       retcod = CAEN_DGTZ_ReadRegister(handle,addr,&data);
 
-      if(retcod == CAEN_DGTZ_Success) printf("0x%X (%d)\n",data,data);
+      if(retcod == CAEN_DGTZ_Success)
+      {  
+        printf("0x%X (hex)\n",data);
+        printf("                                 ");
+        print_binary(data); printf("\n");
+        printf("                                 ");
+        printf("%d (dec)\n",data);
+      }
       else printf("[ERROR] Link %d CAEN_DGTZ_ReadRegister %d\n", link, retcod);      
 
       sleep(0.1);   
