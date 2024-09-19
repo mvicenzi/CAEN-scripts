@@ -37,37 +37,40 @@ struct V1730
 };
 
 // board DB
-const V1730 eebot01(5,"icaruspmteebot01",21,8213);
-const V1730 eebot02(6,"icaruspmteebot02",22,8214);
-const V1730 eebot03(7,"icaruspmteebot03",23,8215);
-const V1730 eetop01(2,"icaruspmteetop01",18,8210);
-const V1730 eetop02(3,"icaruspmteetop02",19,8211);
-const V1730 eetop03(4,"icaruspmteetop03",20,8212);
-const V1730 ewbot01(7,"icaruspmtewbot01",15,8207);
-const V1730 ewbot02(0,"icaruspmtewbot02",16,8208);
-const V1730 ewbot03(1,"icaruspmtewbot03",17,8209);
-const V1730 ewtop01(4,"icaruspmtewtop01",12,8204);
-const V1730 ewtop02(5,"icaruspmtewtop02",13,8205);
-const V1730 ewtop03(6,"icaruspmtewtop03",14,8206);
-const V1730 webot01(1,"icaruspmtwebot01",9,8201);
-const V1730 webot02(2,"icaruspmtwebot02",10,8202);
-const V1730 webot03(3,"icaruspmtwebot03",11,8203);
-const V1730 wetop01(6,"icaruspmtwetop01",6,8198);
-const V1730 wetop02(7,"icaruspmtwetop02",7,8199);
-const V1730 wetop03(0,"icaruspmtwetop03",8,8200);
-const V1730 wwbot01(3,"icaruspmtwwbot01",3,8195);
-const V1730 wwbot02(4,"icaruspmtwwbot02",4,8196);
-const V1730 wwbot03(5,"icaruspmtwwbot03",5,8197);
+const V1730 eebot01(4,"icaruspmteebot01",21,8213);
+const V1730 eebot02(5,"icaruspmteebot02",22,8214);
+const V1730 eebot03(6,"icaruspmteebot03",23,8215);
+const V1730 eetop01(0,"icaruspmteetop01",18,8210);
+const V1730 eetop02(1,"icaruspmteetop02",19,8211);
+const V1730 eetop03(2,"icaruspmteetop03",20,8212);
+const V1730 ewbot01(4,"icaruspmtewbot01",15,8207);
+const V1730 ewbot02(5,"icaruspmtewbot02",16,8208);
+const V1730 ewbot03(6,"icaruspmtewbot03",17,8209);
+const V1730 ewtop01(0,"icaruspmtewtop01",12,8204);
+const V1730 ewtop02(1,"icaruspmtewtop02",13,8205);
+const V1730 ewtop03(2,"icaruspmtewtop03",14,8206);
+const V1730 webot01(4,"icaruspmtwebot01",9,8201);
+const V1730 webot02(5,"icaruspmtwebot02",10,8202);
+const V1730 webot03(6,"icaruspmtwebot03",11,8203);
+const V1730 wetop01(0,"icaruspmtwetop01",6,8198);
+const V1730 wetop02(1,"icaruspmtwetop02",7,8199);
+const V1730 wetop03(2,"icaruspmtwetop03",8,8200);
+const V1730 wwbot01(4,"icaruspmtwwbot01",3,8195);
+const V1730 wwbot02(5,"icaruspmtwwbot02",4,8196);
+const V1730 wwbot03(6,"icaruspmtwwbot03",5,8197);
 const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192);
 const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193);
 const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194);
+const V1730 empty3(3,"EMPTY",0,0);
+const V1730 empty7(7,"EMPTY",0,0);
 const V1730 empty(0,"",0,0);
 
 // server DB
-V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, wwbot01, wwbot02, wwbot03, wetop01, wetop02 };
-V1730 server02[N_LINKS]{ wetop03, webot01, webot02, webot03, ewtop01, ewtop02, ewtop03, ewbot01 };
-V1730 server03[N_LINKS]{ ewbot02, ewbot03, eetop01, eetop02, eetop03, eebot01, eebot02, eebot03 };
-V1730 noserver[N_LINKS]{ empty, empty, empty, empty, empty, empty, empty, empty };
+V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, empty3, wwbot01, wwbot02, wwbot03, empty7 };
+V1730 server02[N_LINKS]{ wetop01, wetop02, wetop03, empty3, webot01, webot02, webot03, empty7 };
+V1730 server03[N_LINKS]{ ewtop01, ewtop02, ewtop03, empty3, ewbot01, ewbot02, ewbot03, empty7 };
+V1730 server04[N_LINKS]{ eetop01, eetop02, eetop03, empty3, eebot01, eebot02, eebot03, empty7 };
+V1730 noserver[N_LINKS]{ empty, empty, empty, empty, empty, empty, empty, empty};
 
 // get list of V1730 boards connected to the current host
 void GetListOfBoards(V1730 (&boards)[N_LINKS])
@@ -82,6 +85,8 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS])
     memcpy(boards, server02, sizeof(server02));
   else if (strcmp(hostname,"icarus-pmt03.fnal.gov")==0)
     memcpy(boards, server03, sizeof(server03));
+  else if (strcmp(hostname,"icarus-pmt04.fnal.gov")==0)
+    memcpy(boards, server04, sizeof(server04));
   else 
   {
     memcpy(boards, noserver, sizeof(noserver));
