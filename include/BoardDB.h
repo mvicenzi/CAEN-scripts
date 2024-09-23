@@ -61,9 +61,9 @@ const V1730 wwbot03(6,"icaruspmtwwbot03",5,8197);
 const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192);
 const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193);
 const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194);
-const V1730 empty3(3,"EMPTY",0,0);
-const V1730 empty7(7,"EMPTY",0,0);
-const V1730 empty(0,"",0,0);
+const V1730 empty3(3,"EMPTY",-1,-1);
+const V1730 empty7(7,"EMPTY",-1,-1);
+const V1730 empty(0,"",-1,-1);
 
 // server DB
 V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, empty3, wwbot01, wwbot02, wwbot03, empty7 };

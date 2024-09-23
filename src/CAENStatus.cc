@@ -169,7 +169,8 @@ int main(int argc, char **argv)
 
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n", retcod);
+    else if ( boards[i].fragmentID>0 ) //only if non-empty board
+      printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n", retcod);
   }
 
 }
