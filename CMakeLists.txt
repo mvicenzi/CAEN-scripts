@@ -1,49 +1,49 @@
 cmake_minimum_required (VERSION 3.18.2)
 
-find_package(cetmodules)
-set(CET_CETBUILDTOOLS_COMPAT TRUE)
-include(Compatibility)
-set(CET_WARN_DEPRECATED)
-
 project(CAEN-toolkit)
 
-set(CMAKE_MODULE_PATH
-  $ENV{ARTDAQ_UTILITIES_DIR}/Modules
-  ${CMAKE_MODULE_PATH})
-include(CetCMakeEnv)
-
-cet_cmake_env()
-
 ## ask for minimum required version (update?)
-find_ups_product( caenvme v2_50 )
-find_ups_product( caencomm v1_2a )
-find_ups_product( caendigitizer v2_7_2 )
+find_library(CAENVME NAMES CAENVME PATHS /usr/lib /usr/local/lib)
+find_library(CAENDigitizer NAMES CAENDigitizer PATHS /usr/lib /usr/local/lib)
+find_library(CAENComm NAMES CAENComm PATHS /usr/lib /usr/local/lib)
 
-## get the right libraries
+# Ensure both the library and headers are found
+if (CAENVME)
+    message(STATUS "Found CAENVME library: ${CAENVME}")
+else()
+    message(FATAL_ERROR "Could not find CAENVME library")
+endif()
+if (CAENComm)
+    message(STATUS "Found CAENComm library: ${CAENComm}")
+else()
+    message(FATAL_ERROR "Could not find CAENComm library")
+endif()
+if (CAENDigitizer)
+    message(STATUS "Found CAENDigitizer library: ${CAENDigitizer}")
+else()
+    message(FATAL_ERROR "Could not find CAENDigitizer library")
+endif()
+
 add_definitions(-DLINUX)
-link_directories($ENV{CAENCOMM_LIB})
-link_directories($ENV{CAENVME_LIB})
-link_directories($ENV{CAENDIGITIZER_LIB})
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_executable(CAENBoardInfo src/CAENBoardInfo.cc)
-target_link_libraries(CAENBoardInfo PUBLIC CAENComm CAENVME CAENDigitizer) 
+target_link_libraries(CAENBoardInfo PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
 add_executable(CAENStatus src/CAENStatus.cc)
-target_link_libraries(CAENStatus PUBLIC CAENComm CAENVME CAENDigitizer) 
+target_link_libraries(CAENStatus PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
 add_executable(CAENReset src/CAENReset.cc)
-target_link_libraries(CAENReset PUBLIC CAENComm CAENVME CAENDigitizer)
+target_link_libraries(CAENReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
 add_executable(CAENBridgeReset src/CAENBridgeReset.cc)
-target_link_libraries(CAENBridgeReset PUBLIC CAENComm CAENVME CAENDigitizer)
+target_link_libraries(CAENBridgeReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
 add_executable(CAENClockOut src/CAENClockOut.cc)
-target_link_libraries(CAENClockOut PUBLIC CAENComm CAENVME CAENDigitizer)
+target_link_libraries(CAENClockOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
 add_executable(CAENClockPhaseOut src/CAENClockPhaseOut.cc)
-target_link_libraries(CAENClockPhaseOut PUBLIC CAENComm CAENVME CAENDigitizer)
+target_link_libraries(CAENClockPhaseOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
 add_executable(CAENReadRegister src/CAENReadRegister.cc)
-target_link_libraries(CAENReadRegister PUBLIC CAENComm CAENVME CAENDigitizer)
+target_link_libraries(CAENReadRegister PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
