@@ -29,9 +29,10 @@ void PrintAcquisitionStatusLegend()
          "SHUT : 0=channels ON, 1=channels shutdown\n");
 }
 
-void GetAcquisitionStatus(int fHandle)
+void GetAcquisitionStatus(int fHandle, int verbosity)
 {
   uint32_t data;
+  bool verb = verbosity > 0;
   auto retcod = CAEN_DGTZ_ReadRegister(fHandle,CAEN_DGTZ_ACQ_STATUS_ADD,&data);
   if ( retcod == CAEN_DGTZ_Success )
   {
@@ -43,6 +44,7 @@ void GetAcquisitionStatus(int fHandle)
     bool rdy  = data & 0x0100;
     bool shut = data & 0x80000;   
 
+    if(verb || shut || !rdy || full || !clk || !pll ) //print if verbose, or issue detected
     printf("Status     RUN: %d  DRDY: %d  BUSY: %d  CLK: %d  PLL: %d  RDY: %d  SHUT: %d\n",
            run, drdy, full, clk, pll, rdy, shut);
   }
@@ -113,7 +115,7 @@ void GetChannelStatus(int fHandle, int verbosity)
   
   }
 
-  printf("    Max Temp. [C]: %d\n", maxT);
+  if( verbosity > 0 || maxT > 60 ) printf("    Max Temp. [C]: %d\n", maxT);
   
   bool verb = verbosity > 1; 
   for(size_t ch =0; ch<MAX_CHANNELS; ch++)
@@ -155,15 +157,15 @@ int main(int argc, char **argv)
   {
     link = boards[i].link;
 
-    printf("----------------------\n" 
-           "Optical link: %d - %s (fragmentID: %d, boardID: %d)\n",
+    if(verbosity > 0) printf("----------------------\n");
+    printf("Optical link: %d - %s (fragmentID: %d, boardID: %d)\n",
             link, boards[i].name, boards[i].fragmentID, boards[i].boardID);
     
     retcod = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink,
 				     link, board, 0, &handle);
     if( retcod == CAEN_DGTZ_Success)
     { 
-      GetAcquisitionStatus(handle);
+      GetAcquisitionStatus(handle,verbosity);
       GetFailureStatus(handle);
       GetChannelStatus(handle,verbosity);
 

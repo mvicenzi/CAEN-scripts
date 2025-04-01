@@ -1,9 +1,11 @@
 #!/bin/bash
 
 ## This script checks the status of CAEN digitizers across all servers.
-## This is done by using CAENStatus. Default verbosity is 0 (no legend is shown).
-## Verbosity 1 prints software releases and legend. V
-## Verbosity 2 prints status for all channels.
+## This is done by using CAENStatus. 
+## Verbosity levels:
+## 0: connection/failures check only. No status or legend printed (default)
+## 1: prints full board status, software releases and legend
+## 2: prints channel-by-channel status and temperatures
 
 verbosity=0
 if [ $# -gt 0 ]; then 
