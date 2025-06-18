@@ -142,7 +142,7 @@ int main(int argc, char **argv)
   int retcod, link, board, handle;
   board = 0; // Can be 0...7, but we only use one per optical chain
  
-  if ( verbosity > 0 ){ 
+  if ( verbosity > 1 ){ 
     utils::CheckSoftwareReleases();
     PrintAcquisitionStatusLegend();
     PrintFailureStatusLegend();
