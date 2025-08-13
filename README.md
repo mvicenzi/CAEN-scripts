@@ -18,6 +18,10 @@ In addition, the following scripts can be used to run the pre-compiled executabl
 * `CAENA2795_Status.cc` prints the statuts and temperatures of A2795 digitizers. 
 * `CAENA2795_Reset.cc` sends a software reset signal to A2795 digitizers. All internal registers and states are restored to default values. Data buffers are cleared.
 
+In addition, the following scripts can be used to run the pre-compiled executable on all TPC servers at once:
+* `run_CAENA2795_Status_all.sh`
+* `run_CAENA2795_Reset_all.sh`
+
 ## A3818/A5818
 * `CAENVME_BridgeReset.cc` sends a software reset signal to the A3818/A5818 VME bridge.
 
