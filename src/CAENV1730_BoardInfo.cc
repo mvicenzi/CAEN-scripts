@@ -17,7 +17,7 @@ Description:
 #include "Utilities.h"
 #include "PMTBoardDB.h"
 
-void GetBoardInfo(int fHandle, int fLin, int bridge)
+void GetBoardInfo(int fHandle, int fLink, int bridge)
 {
   int retcod=0;
   CAEN_DGTZ_BoardInfo_t info;

@@ -69,12 +69,12 @@ int main(int argc, char **argv)
   
   //Resetting first bridge (link 0-3)
   int link = 0;
-  int bridge = boards[link].aX818
+  int bridge = boards[link].aX818;
   BridgeReset(link,bridge);
 
   //Resetting second bridge (link 4-7)
   link = 4;
-  bridge = boards[link].aX818
+  bridge = boards[link].aX818;
   BridgeReset(link,bridge);
 
   return 0;

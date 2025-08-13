@@ -31,15 +31,15 @@ add_executable(CAENV1730_BoardInfo src/CAENV1730_BoardInfo.cc)
 target_link_libraries(CAENV1730_BoardInfo PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
 add_executable(CAENV1730_Status src/CAENV1730_Status.cc)
-target_link_libraries(CAENStatus PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
+target_link_libraries(CAENV1730_Status PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
 add_executable(CAENV1730_Reset src/CAENV1730_Reset.cc)
-target_link_libraries(CAENReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+target_link_libraries(CAENV1730_Reset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
 add_executable(CAENVME_BridgeReset src/CAENVME_BridgeReset.cc)
 target_link_libraries(CAENVME_BridgeReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
-add_executable(CCAENV1730_ClockOut src/CAENV1730_ClockOut.cc)
+add_executable(CAENV1730_ClockOut src/CAENV1730_ClockOut.cc)
 target_link_libraries(CAENV1730_ClockOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
 add_executable(CAENV1730_ClockPhaseOut src/CAENV1730_ClockPhaseOut.cc)
@@ -47,3 +47,6 @@ target_link_libraries(CAENV1730_ClockPhaseOut PUBLIC ${CAENComm} ${CAENVME} ${CA
 
 add_executable(CAENV1730_ReadRegister src/CAENV1730_ReadRegister.cc)
 target_link_libraries(CAENV1730_ReadRegister PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+
+add_executable(CAENA2795_Status src/CAENA2795_Status.cc)
+target_link_libraries(CAENA2795_Status PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 

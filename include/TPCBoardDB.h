@@ -165,7 +165,7 @@ A2795Crate server01[N_CRATES]{ ww20t, ww20m, ww20b, ww19 };
 A2795Crate noserver[N_CRATES]{ empty, empty, empty, empty };
 
 // get list of A2795 crates connected to the current host
-void GetListOfCrates(A2795Crate (&crates)[N_LINKS])
+void GetListOfCrates(A2795Crate (&crates)[N_CRATES])
 {
   char hostname[100];
   int ret = gethostname(hostname, sizeof(hostname));
