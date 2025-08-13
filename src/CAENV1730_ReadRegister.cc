@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------
-File: CAENReadRegister.cc
+File: CAENV1730_ReadRegister.cc
 Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:

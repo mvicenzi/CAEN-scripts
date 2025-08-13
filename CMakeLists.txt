@@ -27,23 +27,23 @@ endif()
 add_definitions(-DLINUX)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_executable(CAENBoardInfo src/CAENBoardInfo.cc)
-target_link_libraries(CAENBoardInfo PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
+add_executable(CAENV1730_BoardInfo src/CAENV1730_BoardInfo.cc)
+target_link_libraries(CAENV1730_BoardInfo PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
-add_executable(CAENStatus src/CAENStatus.cc)
+add_executable(CAENV1730_Status src/CAENV1730_Status.cc)
 target_link_libraries(CAENStatus PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
-add_executable(CAENReset src/CAENReset.cc)
+add_executable(CAENV1730_Reset src/CAENV1730_Reset.cc)
 target_link_libraries(CAENReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
-add_executable(CAENBridgeReset src/CAENBridgeReset.cc)
-target_link_libraries(CAENBridgeReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+add_executable(CAENVME_BridgeReset src/CAENVME_BridgeReset.cc)
+target_link_libraries(CAENVME_BridgeReset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
-add_executable(CAENClockOut src/CAENClockOut.cc)
-target_link_libraries(CAENClockOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+add_executable(CCAENV1730_ClockOut src/CAENV1730_ClockOut.cc)
+target_link_libraries(CAENV1730_ClockOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
-add_executable(CAENClockPhaseOut src/CAENClockPhaseOut.cc)
-target_link_libraries(CAENClockPhaseOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+add_executable(CAENV1730_ClockPhaseOut src/CAENV1730_ClockPhaseOut.cc)
+target_link_libraries(CAENV1730_ClockPhaseOut PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
-add_executable(CAENReadRegister src/CAENReadRegister.cc)
-target_link_libraries(CAENReadRegister PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+add_executable(CAENV1730_ReadRegister src/CAENV1730_ReadRegister.cc)
+target_link_libraries(CAENV1730_ReadRegister PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})

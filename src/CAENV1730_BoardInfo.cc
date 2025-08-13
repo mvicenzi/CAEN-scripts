@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------
-File: CAENBoardInfo.cc
+File: CAENV1730_BoardInfo.cc
 Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:

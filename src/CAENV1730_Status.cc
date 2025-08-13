@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------
-File: CAENStatus.cc
+File: CAENV1730_Status.cc
 Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:
