@@ -16,7 +16,7 @@ In addition, the following scripts can be used to run the pre-compiled executabl
 ## A2795
 
 
-## A3818
+## A3818/A5818
 * `CAENVME_BridgeReset.cc` sends a software reset signal to the A3818/A5818 VME bridge.
 
 ## Instructions
