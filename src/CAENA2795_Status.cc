@@ -37,15 +37,14 @@ void GetStatus(int handle, int link, int br, int verbosity)
     bool busy = data & 0x40;
 
     if(verb || busy) //print if verbose, or issue detected
-      printf("  Link %d - Board %d, slot %d - RUN: %d  DRDY: %d  BUSY: %d",
+      printf("  Link %d - Board %d, slot %d - RUN: %d  DRDY: %d  BUSY: %d\n",
             link, br, slot, run, drdy, busy);
   }
   else
   { 
-    printf("  Link %d - Board %d  - [ERROR] CAENComm_Read32 STATUS (0x1018) %d",
+    printf("  Link %d - Board %d  - [ERROR] CAENComm_Read32 STATUS (0x1018) %d\n",
           link, br, retcod);
   }
-  printf("\n");
 }
 
 void GetTemperatures(int handle, int verbosity)

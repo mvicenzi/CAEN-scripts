@@ -138,7 +138,7 @@ const A2795Crate ww20t(0,1,"icarustpcww20t",5906,4,4,3);
 const A2795Crate empty(0,0,"",-1,0,0,-1);
 
 // server DB
-A2795Crate server24[N_CRATES]{ ee02, ee01b, ee01m, ee01t };
+A2795Crate server25[N_CRATES]{ ee02, ee01b, ee01m, ee01t };
 A2795Crate server23[N_CRATES]{ ee06, ee05, ee04, ee03 };
 A2795Crate server22[N_CRATES]{ ee10, ee09, ee08, ee07 };
 A2795Crate server21[N_CRATES]{ ee14, ee13, ee12, ee11 };
@@ -217,8 +217,8 @@ void GetListOfCrates(A2795Crate (&crates)[N_CRATES])
       memcpy(crates, server22, sizeof(server22));
   else if (strcmp(hostname,"icarus-tpc23.fnal.gov")==0)
       memcpy(crates, server23, sizeof(server23));
-  else if (strcmp(hostname,"icarus-tpc24.fnal.gov")==0)
-      memcpy(crates, server24, sizeof(server24));
+  else if (strcmp(hostname,"icarus-tpc25.fnal.gov")==0)
+      memcpy(crates, server25, sizeof(server25));
   else 
   {
     memcpy(crates, noserver, sizeof(noserver));
