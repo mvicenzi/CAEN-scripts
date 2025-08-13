@@ -24,7 +24,7 @@ void PrintStatusLegend()
          "BUSY : 0=board not full, 1=board full\n");
 }
 
-void GetStatus(int handle, int verbosity)
+void GetStatus(int handle, int link, int br, int verbosity)
 {
   uint32_t data;
   bool verb = verbosity > 0;
@@ -36,13 +36,14 @@ void GetStatus(int handle, int verbosity)
     bool drdy = data & 0x20;
     bool busy = data & 0x40;
 
-    printf(", slot %d",slot);
     if(verb || busy) //print if verbose, or issue detected
-      printf(" - RUN: %d  DRDY: %d  BUSY: %d", run, drdy, busy);
+      printf("  Link %d - Board %d, slot %d - RUN: %d  DRDY: %d  BUSY: %d",
+            link, br, slot, run, drdy, busy);
   }
   else
   { 
-    printf("  [ERROR] CAENComm_Read32 STATUS (0x1018) %d", retcod);
+    printf("  Link %d - Board %d  - [ERROR] CAENComm_Read32 STATUS (0x1018) %d",
+          link, br, retcod);
   }
   printf("\n");
 }
@@ -72,15 +73,14 @@ void CheckDaisyChain(int link, int nboards, int verbosity)
   
   for (int br=0; br<nboards; br++)
   {
-    printf("  Link %d - Board %d", link, br);
     retcode = CAENComm_OpenDevice2(CAENComm_OpticalLink, &link, br, 0, &handle);
     if( retcode == CAENComm_Success )
     { 
-      GetStatus(handle,verbosity);
+      GetStatus(handle, link, br, verbosity);
       GetTemperatures(handle,verbosity); 
       CAENComm_CloseDevice(handle);
     }
-    else printf("[ERROR] CAENComm_OpenDevice2 %d\n", retcode);
+    else printf("  Link %d - Board %d [ERROR] CAENComm_OpenDevice2 %d\n",link, br, retcode);
   }
 }
 

@@ -7,7 +7,7 @@
 ## 1: prints full board status (default)
 ## 2: prints software releases, legend and temperatures
 
-verbosity=1
+verbosity=0
 if [ $# -gt 0 ]; then 
   verbosity=$1
 fi
