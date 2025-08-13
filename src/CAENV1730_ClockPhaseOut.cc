@@ -10,7 +10,7 @@ Description:
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "BoardDB.h"
+#include "PMTBoardDB.h"
 #include "Utilities.h"
 
 int main(int argc, char **argv)
@@ -27,8 +27,8 @@ int main(int argc, char **argv)
     return 1;
   }
   
-  boardDB::V1730 boards[N_LINKS];
-  boardDB::GetListOfBoards(boards);
+  PMTBoardDB::V1730 boards[N_LINKS];
+  PMTBoardDB::GetListOfBoards(boards);
   
   for (int i=1; i<argc; i++)
   {

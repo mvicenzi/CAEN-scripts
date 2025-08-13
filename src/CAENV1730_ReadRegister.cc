@@ -10,7 +10,7 @@ Description:
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "BoardDB.h"
+#include "PMTBoardDB.h"
 #include "Utilities.h"
 
 
@@ -49,8 +49,8 @@ int main(int argc, char **argv)
     return 1;
   }
   
-  boardDB::V1730 boards[N_LINKS];
-  boardDB::GetListOfBoards(boards);
+  PMTBoardDB::V1730 boards[N_LINKS];
+  PMTBoardDB::GetListOfBoards(boards);
     
   link = atoi(argv[1]); 
   retcod = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink,

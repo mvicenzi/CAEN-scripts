@@ -11,7 +11,7 @@ Description:
 
 #include "CAENVMEtypes.h"
 #include "Utilities.h"
-#include "BoardDB.h"
+#include "PMTBoardDB.h"
 
 void BridgeReset(int link, int bridge)
 {
@@ -64,8 +64,8 @@ int main(int argc, char **argv)
   
   utils::CheckSoftwareReleases();
   
-  boardDB::V1730 boards[N_LINKS];
-  boardDB::GetListOfBoards(boards);
+  PMTBoardDB::V1730 boards[N_LINKS];
+  PMTBoardDB::GetListOfBoards(boards);
   
   //Resetting first bridge (link 0-3)
   int link = 0;

@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------
-File: BoardDB.h
+File: PMTBoardDB.h
 Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:
@@ -16,7 +16,7 @@ Description:
 #define N_LINKS 8
 #define MAX_CHANNELS 16
 
-namespace boardDB {
+namespace PMTBoardDB {
 
 // structure for board-info
 struct V1730 

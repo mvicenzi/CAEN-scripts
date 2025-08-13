@@ -15,7 +15,7 @@ Description:
 #include "CAENVMEtypes.h"
 
 #include "Utilities.h"
-#include "BoardDB.h"
+#include "PMTBoardDB.h"
 
 void GetBoardInfo(int fHandle, int fLin, int bridge)
 {
@@ -81,8 +81,8 @@ int main(int argc, char **argv)
   // CAEN software
   utils::CheckSoftwareReleases();
 
-  boardDB::V1730 boards[N_LINKS];
-  boardDB::GetListOfBoards(boards);
+  PMTBoardDB::V1730 boards[N_LINKS];
+  PMTBoardDB::GetListOfBoards(boards);
 
   for ( int i=0; i<N_LINKS; i++) //loop all boards
   {

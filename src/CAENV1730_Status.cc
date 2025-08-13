@@ -14,7 +14,7 @@ Description:
 #include "CAENDigitizerType.h"
 #include "CAENVMEtypes.h"
 
-#include "BoardDB.h"
+#include "PMTBoardDB.h"
 #include "Utilities.h"
 
 void PrintAcquisitionStatusLegend()
@@ -150,8 +150,8 @@ int main(int argc, char **argv)
   }
   printf("==============================\n");
   
-  boardDB::V1730 boards[N_LINKS];
-  boardDB::GetListOfBoards(boards);
+  PMTBoardDB::V1730 boards[N_LINKS];
+  PMTBoardDB::GetListOfBoards(boards);
 
   for ( int i=0; i<N_LINKS; i++) //loop all boards
   {
