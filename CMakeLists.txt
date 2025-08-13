@@ -56,3 +56,5 @@ target_link_libraries(CAENA2795_BoardInfo PUBLIC ${CAENComm} ${CAENVME} ${CAENDi
 add_executable(CAENA2795_Status src/CAENA2795_Status.cc)
 target_link_libraries(CAENA2795_Status PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer}) 
 
+add_executable(CAENA2795_Reset src/CAENA2795_Reset.cc)
+target_link_libraries(CAENA2795_Reset PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})

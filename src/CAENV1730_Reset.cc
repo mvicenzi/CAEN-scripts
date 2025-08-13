@@ -22,7 +22,7 @@ int main(int argc, char **argv)
   if ( argc < 2 )
   {
     printf("****** missing input parameters *****\n"
-           "Usage:   CAENReset [link 0] [link 1] [link 2] ...\n");
+           "Usage:   CAENV1730_Reset [link 0] [link 1] [link 2] ...\n");
     return 1;
   }
   
