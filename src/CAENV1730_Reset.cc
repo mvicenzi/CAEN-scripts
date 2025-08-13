@@ -44,7 +44,7 @@ int main(int argc, char **argv)
       
       retcod = CAEN_DGTZ_ClearData(handle);      
       if ( retcod != CAEN_DGTZ_Success )
-	printf("[ERROR] CAEN_DGTZ_ClearData %d\n",retcod);
+	      printf("[ERROR] CAEN_DGTZ_ClearData %d\n",retcod);
 
       sleep(0.1);   
       CAEN_DGTZ_CloseDigitizer(handle);

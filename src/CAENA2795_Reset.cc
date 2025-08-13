@@ -29,12 +29,15 @@ void ResetDaisyChain(int link, int nboards)
     { 
       // clear
       retcode = CAENComm_Write32(handle, 0x1028, 0x2);
-      if(retcode<0) printf(" [ERROR] CAENComm_Write32 CLEAR %d",retcode);
+      if(retcode != CAENComm_Success) 
+        printf(" [ERROR] CAENComm_Write32 CLEAR %d",retcode);
       // reset
       retcode = CAENComm_Write32(handle, 0x1028, 0x1);
-      if(retcode<0) printf(" [ERROR] CAENComm_Write32 RESET %d",retcode);
+      if(retcode != CAENComm_Success) 
+        printf(" [ERROR] CAENComm_Write32 RESET %d",retcode);
 	
       printf("\n");
+      sleep(0.1);   
       CAENComm_CloseDevice(handle);
     }
     else printf("  [ERROR] CAENComm_OpenDevice2 %d\n", retcode);
@@ -78,7 +81,7 @@ int main(int argc, char **argv)
       else if( c.link2 == link )
       {
         nbr = c.nboards2;
-	strncpy(name, c.name, sizeof(name));
+        strncpy(name, c.name, sizeof(name));
         name[sizeof(name)-1] = '\0';
         break;
       }      
