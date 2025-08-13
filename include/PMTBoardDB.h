@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------
-File: BoardDB.h
+File: PMTBoardDB.h
 Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:
@@ -16,7 +16,7 @@ Description:
 #define N_LINKS 8
 #define MAX_CHANNELS 16
 
-namespace boardDB {
+namespace PMTBoardDB {
 
 // structure for board-info
 struct V1730 
@@ -25,11 +25,12 @@ struct V1730
   char name[100];
   int boardID;
   int fragmentID;
+  int aX818;
   
-  V1730() : link(0), name(""), boardID(0), fragmentID(0) {}
+  V1730() : link(0), name(""), boardID(0), fragmentID(0), aX818(0) {}
   
-  V1730(int l, const char* n, int b, int f) :
-    link(l), boardID(b), fragmentID(f)
+  V1730(int l, const char* n, int b, int f, int x) :
+    link(l), boardID(b), fragmentID(f), aX818(x)
     {
       strncpy(name, n, sizeof(name)); 
       name[sizeof(name) - 1] = '\0';
@@ -37,33 +38,33 @@ struct V1730
 };
 
 // board DB
-const V1730 eebot01(4,"icaruspmteebot01",21,8213);
-const V1730 eebot02(5,"icaruspmteebot02",22,8214);
-const V1730 eebot03(6,"icaruspmteebot03",23,8215);
-const V1730 eetop01(0,"icaruspmteetop01",18,8210);
-const V1730 eetop02(1,"icaruspmteetop02",19,8211);
-const V1730 eetop03(2,"icaruspmteetop03",20,8212);
-const V1730 ewbot01(4,"icaruspmtewbot01",15,8207);
-const V1730 ewbot02(5,"icaruspmtewbot02",16,8208);
-const V1730 ewbot03(6,"icaruspmtewbot03",17,8209);
-const V1730 ewtop01(0,"icaruspmtewtop01",12,8204);
-const V1730 ewtop02(1,"icaruspmtewtop02",13,8205);
-const V1730 ewtop03(2,"icaruspmtewtop03",14,8206);
-const V1730 webot01(4,"icaruspmtwebot01",9,8201);
-const V1730 webot02(5,"icaruspmtwebot02",10,8202);
-const V1730 webot03(6,"icaruspmtwebot03",11,8203);
-const V1730 wetop01(0,"icaruspmtwetop01",6,8198);
-const V1730 wetop02(1,"icaruspmtwetop02",7,8199);
-const V1730 wetop03(2,"icaruspmtwetop03",8,8200);
-const V1730 wwbot01(4,"icaruspmtwwbot01",3,8195);
-const V1730 wwbot02(5,"icaruspmtwwbot02",4,8196);
-const V1730 wwbot03(6,"icaruspmtwwbot03",5,8197);
-const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192);
-const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193);
-const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194);
-const V1730 empty3(3,"EMPTY",-1,-1);
-const V1730 empty7(7,"EMPTY",-1,-1);
-const V1730 empty(0,"",-1,-1);
+const V1730 eebot01(4,"icaruspmteebot01",21,8213,5);
+const V1730 eebot02(5,"icaruspmteebot02",22,8214,5);
+const V1730 eebot03(6,"icaruspmteebot03",23,8215,5);
+const V1730 eetop01(0,"icaruspmteetop01",18,8210,5);
+const V1730 eetop02(1,"icaruspmteetop02",19,8211,5);
+const V1730 eetop03(2,"icaruspmteetop03",20,8212,5);
+const V1730 ewbot01(4,"icaruspmtewbot01",15,8207,3);
+const V1730 ewbot02(5,"icaruspmtewbot02",16,8208,3);
+const V1730 ewbot03(6,"icaruspmtewbot03",17,8209,3);
+const V1730 ewtop01(0,"icaruspmtewtop01",12,8204,3);
+const V1730 ewtop02(1,"icaruspmtewtop02",13,8205,3);
+const V1730 ewtop03(2,"icaruspmtewtop03",14,8206,3);
+const V1730 webot01(4,"icaruspmtwebot01",9,8201,3);
+const V1730 webot02(5,"icaruspmtwebot02",10,8202,3);
+const V1730 webot03(6,"icaruspmtwebot03",11,8203,3);
+const V1730 wetop01(0,"icaruspmtwetop01",6,8198,3);
+const V1730 wetop02(1,"icaruspmtwetop02",7,8199,3);
+const V1730 wetop03(2,"icaruspmtwetop03",8,8200,3);
+const V1730 wwbot01(4,"icaruspmtwwbot01",3,8195,3);
+const V1730 wwbot02(5,"icaruspmtwwbot02",4,8196,3);
+const V1730 wwbot03(6,"icaruspmtwwbot03",5,8197,3);
+const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192,3);
+const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193,3);
+const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194,3);
+const V1730 empty3(3,"EMPTY",-1,-1,-1);
+const V1730 empty7(7,"EMPTY",-1,-1,-1);
+const V1730 empty(0,"",-1,-1,-1);
 
 // server DB
 V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, empty3, wwbot01, wwbot02, wwbot03, empty7 };
