@@ -135,7 +135,10 @@ const A2795Crate ww19(6,7,"icarustpcww19",5904,4,5,3);
 const A2795Crate ww20b(4,5,"icarustpcww20b",5910,4,5,3);
 const A2795Crate ww20m(2,3,"icarustpcww20m",5908,4,5,3);
 const A2795Crate ww20t(0,1,"icarustpcww20t",5906,4,4,3);
-const A2795Crate empty(0,0,"",-1,0,0,-1);
+const A2795Crate empty1(0,1,"empty01",-1,5,5,-1);
+const A2795Crate empty2(2,3,"empty23",-1,5,5,-1);
+const A2795Crate empty3(4,5,"empty45",-1,5,5,-1);
+const A2795Crate empty4(6,7,"empty67",-1,5,5,-1);
 
 // server DB
 A2795Crate server25[N_CRATES]{ ee02, ee01b, ee01m, ee01t };
@@ -162,7 +165,7 @@ A2795Crate server04[N_CRATES]{ ww10, ww09, ww08, ww07 };
 A2795Crate server03[N_CRATES]{ ww14, ww13, ww12, ww11 };
 A2795Crate server02[N_CRATES]{ ww18, ww17, ww16, ww15 };
 A2795Crate server01[N_CRATES]{ ww20t, ww20m, ww20b, ww19 };
-A2795Crate noserver[N_CRATES]{ empty, empty, empty, empty };
+A2795Crate noserver[N_CRATES]{ empty1, empty2, empty3, empty4 };
 
 // get list of A2795 crates connected to the current host
 void GetListOfCrates(A2795Crate (&crates)[N_CRATES])
