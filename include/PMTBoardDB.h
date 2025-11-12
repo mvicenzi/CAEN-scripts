@@ -56,22 +56,23 @@ const V1730 webot03(6,"icaruspmtwebot03",11,8203,3);
 const V1730 wetop01(0,"icaruspmtwetop01",6,8198,3);
 const V1730 wetop02(1,"icaruspmtwetop02",7,8199,3);
 const V1730 wetop03(2,"icaruspmtwetop03",8,8200,3);
-const V1730 wwbot01(4,"icaruspmtwwbot01",3,8195,3);
-const V1730 wwbot02(5,"icaruspmtwwbot02",4,8196,3);
-const V1730 wwbot03(6,"icaruspmtwwbot03",5,8197,3);
-const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192,3);
-const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193,3);
-const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194,3);
+const V1730 wwbot01(4,"icaruspmtwwbot01",3,8195,5);
+const V1730 wwbot02(5,"icaruspmtwwbot02",4,8196,5);
+const V1730 wwbot03(6,"icaruspmtwwbot03",5,8197,5);
+const V1730 wwtop01(0,"icaruspmtwwtop01",0,8192,5);
+const V1730 wwtop02(1,"icaruspmtwwtop02",1,8193,5);
+const V1730 wwtop03(2,"icaruspmtwwtop03",2,8194,5);
 const V1730 empty3(3,"EMPTY",-1,-1,-1);
 const V1730 empty7(7,"EMPTY",-1,-1,-1);
 const V1730 empty(0,"",-1,-1,-1);
 
 // server DB
-V1730 server01[N_LINKS]{ wwtop01, wwtop02, wwtop03, empty3, wwbot01, wwbot02, wwbot03, empty7 };
+V1730 server01[N_LINKS]{ empty, empty, empty, empty, empty, empty, empty, empty };
 V1730 server02[N_LINKS]{ wetop01, wetop02, wetop03, empty3, webot01, webot02, webot03, empty7 };
 V1730 server03[N_LINKS]{ ewtop01, ewtop02, ewtop03, empty3, ewbot01, ewbot02, ewbot03, empty7 };
 V1730 server04[N_LINKS]{ eetop01, eetop02, eetop03, empty3, eebot01, eebot02, eebot03, empty7 };
-V1730 noserver[N_LINKS]{ empty, empty, empty, empty, empty, empty, empty, empty};
+V1730 server05[N_LINKS]{ wwtop01, wwtop02, wwtop03, empty3, wwbot01, wwbot02, wwbot03, empty7 };
+V1730 noserver[N_LINKS]{ empty, empty, empty, empty, empty, empty, empty, empty };
 
 // get list of V1730 boards connected to the current host
 void GetListOfBoards(V1730 (&boards)[N_LINKS])
@@ -88,8 +89,8 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS])
     memcpy(boards, server03, sizeof(server03));
   else if (strcmp(hostname,"icarus-pmt04.fnal.gov")==0)
     memcpy(boards, server04, sizeof(server04));
-  else if (strcmp(hostname,"icarus-tpc27.fnal.gov")==0)
-    memcpy(boards, server02, sizeof(server02));
+  else if (strcmp(hostname,"icarus-pmt05.fnal.gov")==0)
+    memcpy(boards, server05, sizeof(server05));
   else 
   {
     memcpy(boards, noserver, sizeof(noserver));

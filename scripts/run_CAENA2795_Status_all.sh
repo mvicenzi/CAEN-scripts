@@ -12,7 +12,7 @@ if [ $# -gt 0 ]; then
   verbosity=$1
 fi
 
-for server in icarus-tpc{01..23}.fnal.gov icarus-tpc25.fnal.gov;
+for server in icarus-tpc{01..24}.fnal.gov;
 do
 
   ssh -Y icarus@$server "~mvicenzi/CAEN-scripts/build/CAENA2795_Status $verbosity"
