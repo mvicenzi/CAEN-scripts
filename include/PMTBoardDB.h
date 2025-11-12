@@ -81,9 +81,9 @@ void GetListOfBoards(V1730 (&boards)[N_LINKS])
   int ret = gethostname(hostname, sizeof(hostname));
   printf("You are currently on %s\n",hostname);
 
-  if (strcmp(hostname,"icarus-pmt01.fnal.gov")==0)
-    memcpy(boards, server01, sizeof(server01));
-  else if (strcmp(hostname,"icarus-pmt02.fnal.gov")==0)
+  //if (strcmp(hostname,"icarus-pmt01.fnal.gov")==0)
+  //  memcpy(boards, server01, sizeof(server01));
+  if (strcmp(hostname,"icarus-pmt02.fnal.gov")==0)
     memcpy(boards, server02, sizeof(server02));
   else if (strcmp(hostname,"icarus-pmt03.fnal.gov")==0)
     memcpy(boards, server03, sizeof(server03));

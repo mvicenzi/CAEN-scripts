@@ -223,8 +223,8 @@ void GetListOfCrates(A2795Crate (&crates)[N_CRATES])
       memcpy(crates, server23, sizeof(server23));
   else if (strcmp(hostname,"icarus-tpc24.fnal.gov")==0)
       memcpy(crates, server24, sizeof(server24));
-  else if (strcmp(hostname,"icarus-tpc25.fnal.gov")==0) // spare
-      memcpy(crates, server25, sizeof(server25));
+  //else if (strcmp(hostname,"icarus-tpc25.fnal.gov")==0)
+  //    memcpy(crates, server25, sizeof(server25));
   else 
   {
     memcpy(crates, noserver, sizeof(noserver));
