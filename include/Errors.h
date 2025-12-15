@@ -11,6 +11,7 @@ Description:
 #include <stdio.h>
 #include "CAENDigitizerType.h"
 #include "CAENVMEtypes.h"
+#include "CAENComm.h"
 
 namespace errors
 {
@@ -53,9 +54,35 @@ namespace errors
     case CAEN_DGTZ_UnsupportedTrace:         return "Unsupported trace";
     case CAEN_DGTZ_InvalidProbe:             return "Invalid probe";
     case CAEN_DGTZ_NotYetImplemented:        return "Not yet implemented";
-    default:                                 return "Unknown CAEN error";
+    default:                                 return "Unknown error";
     }
   }
+
+  // ------------------------------------------------------
+
+  inline const char* CAENComm_ErrorToString(int code)
+  {
+      switch (code)
+      {
+          case CAENComm_Success:             return "Success";
+          case CAENComm_VMEBusError:         return "VME bus error";
+          case CAENComm_CommError:           return "Communication error";
+          case CAENComm_GenericError:        return "Generic error";
+          case CAENComm_InvalidParam:        return "Invalid parameter";
+          case CAENComm_InvalidLinkType:     return "Invalid link type";
+          case CAENComm_InvalidHandler:      return "Invalid device handler";
+          case CAENComm_CommTimeout:         return "Communication timeout";
+          case CAENComm_DeviceNotFound:      return "Device not found";
+          case CAENComm_MaxDevicesError:     return "Maximum devices exceeded";
+          case CAENComm_DeviceAlreadyOpen:   return "Device already open";
+          case CAENComm_NotSupported:        return "Function not supported";
+          case CAENComm_UnusedBridge:        return "No boards on this CAEN bridge";
+          case CAENComm_Terminated:          return "Communication terminated by device";
+          default:                           return "Unknown error";
+      }
+  }
+  
+  // ------------------------------------------------------
 
   inline void PrintErrorV1730(const char *what,
                               int code,
@@ -70,6 +97,8 @@ namespace errors
            CAEN_DGTZ_ErrorToString(code));
   }
 
+  // ------------------------------------------------------
+
   inline void PrintErrorVME(const char *what,
                             int code,
                             bool indent = true,
@@ -81,6 +110,21 @@ namespace errors
     what,
     code,
     CAENVME_DecodeError(code));
+  }
+
+  // ------------------------------------------------------
+
+  inline void PrintErrorComm(const char *what,
+                             int code,
+                             bool indent = true,
+                             const char *tab = "    ")
+  {
+    const char *prefix = indent ? tab : "";
+    printf("%s\033[5;31m[ERROR]\033[0m %-32s (%d) %s\n",
+           prefix,
+           what,
+           code,
+           CAENComm_ErrorToString(code));
   }
 
 }

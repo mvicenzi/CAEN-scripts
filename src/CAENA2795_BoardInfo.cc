@@ -15,6 +15,7 @@ Description:
 #include "CAENVMEtypes.h"
 
 #include "Utils.h"
+#include "Errors.h"
 #include "TPCBoardDB.h"
 
 
@@ -56,7 +57,8 @@ void GetBoardInfo(int handle, int link, int bridge)
     printf("    Firmware: %d.%d  Realized: %d/%d/%d\n",
            	version_major, version_minor, revision_year, revision_month, revision_day);
   }
-  else printf("    [ERROR] CAENComm_Read32 FIRMWARE %d\n",retcode);
+  else 
+    errors::PrintErrorComm("CAENComm_Read32 FIRMWARE",retcode);
 
   // A3818/A5818 firmware / driver
   short Device = 0;
@@ -91,8 +93,12 @@ void GetBoardInfo(int handle, int link, int bridge)
    
     CAENVME_End(BHandle);
   }
-  else printf("    [ERROR] CAENVME_Init2 to cvA%d818 %s\n",bridge,CAENVME_DecodeError(errcode)); 
-
+  else 
+  {
+    char desc[100];
+    snprintf(desc, sizeof(desc), "CAENVME_Init2 to cvA%d818 (link %d)", bridge, link);
+    errors::PrintErrorVME(desc, errcode);
+  } 
 }
 
 /*--------------------------------------------------------*/
@@ -108,7 +114,7 @@ void GetSlot(int handle)
   }
   else
   { 
-    printf("  [ERROR] CAENComm_Read32 SLOT (0x1018) %d\n", retcod);
+    errors::PrintErrorComm("CAENComm_Read32 SLOT (0x1018)",retcod);
   }
 }
 
@@ -127,7 +133,8 @@ void CheckDaisyChain(int link, int nboards, int bridge)
       GetBoardInfo(handle,link,bridge); 
       CAENComm_CloseDevice(handle);
     }
-    else printf("[ERROR] CAENComm_OpenDevice2 %d\n", retcode);
+    else 
+      errors::PrintErrorComm("CAENComm_OpenDevice2", retcode, false);
   }
 }
 
