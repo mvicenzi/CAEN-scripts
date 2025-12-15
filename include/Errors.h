@@ -100,7 +100,7 @@ namespace errors
   // ------------------------------------------------------
 
   inline void PrintErrorVME(const char *what,
-                            int code,
+                            CVErrorCodes code,
                             bool indent = true,
                             const char *tab = "    ")
   { 

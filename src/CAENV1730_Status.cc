@@ -114,7 +114,7 @@ void GetChannelStatus(int fHandle, int verbosity)
     if( err != CAEN_DGTZ_Success ){
       char desc[100];
       snprintf(desc, sizeof(desc), "CAEN_DGTZ_ReadTemperature ch %zu", ch);
-      errors::PrintError(desc, err);
+      errors::PrintErrorV1730(desc, err);
     }
     if( ch_temps[ch] > maxT ) maxT = ch_temps[ch];
 
@@ -123,7 +123,7 @@ void GetChannelStatus(int fHandle, int verbosity)
     if( err != CAEN_DGTZ_Success ){
       char desc[100];
       snprintf(desc, sizeof(desc), "CAEN_DGTZ_ReadChannelStatus ch %zu", ch);
-      errors::PrintError(desc, err);
+      errors::PrintErrorV1730(desc, err);
     }  
   }
 
