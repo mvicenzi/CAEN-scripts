@@ -3,8 +3,7 @@ File: CAENA2795_Status.cc
 Author: M. Vicenzi (mvicenzi@bnl.gov)
 
 Description:
- This script prints the acquisition status, failure status
- and channel status of A2795 digitizers. 
+ This script attemps to clear and reset A2795 digitizers. 
 
 -------------------------------------------------------------*/
 
@@ -14,7 +13,8 @@ Description:
 #include "CAENComm.h"
 
 #include "TPCBoardDB.h"
-#include "Utilities.h"
+#include "Utils.h"
+#include "Errors.h"
 
 
 void ResetDaisyChain(int link, int nboards)
@@ -30,17 +30,18 @@ void ResetDaisyChain(int link, int nboards)
       // clear
       retcode = CAENComm_Write32(handle, 0x1028, 0x2);
       if(retcode != CAENComm_Success) 
-        printf(" [ERROR] CAENComm_Write32 CLEAR %d",retcode);
+        errors::PrintErrorComm("CAENComm_Write32 CLEAR",retcode, true, " ");
       // reset
       retcode = CAENComm_Write32(handle, 0x1028, 0x1);
       if(retcode != CAENComm_Success) 
-        printf(" [ERROR] CAENComm_Write32 RESET %d",retcode);
+        errors::PrintErrorComm("CAENComm_Write32 RSET",retcode, true, " ");
 	
       printf("\n");
       sleep(0.1);   
       CAENComm_CloseDevice(handle);
     }
-    else printf("  [ERROR] CAENComm_OpenDevice2 %d\n", retcode);
+    else 
+      errors::PrintErrorComm("CAENComm_OpenDevice2",retcode);
   }
 }
 

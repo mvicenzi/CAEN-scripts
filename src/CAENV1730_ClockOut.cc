@@ -11,7 +11,8 @@ Description:
 #include <stdlib.h>
 
 #include "PMTBoardDB.h"
-#include "Utilities.h"
+#include "Utils.h"
+#include "Errors.h"
 
 int main(int argc, char **argv)
 {
@@ -40,13 +41,18 @@ int main(int argc, char **argv)
       data =  0x00050000; //set bit[16:17] to 01 and bit[18:19] to 01
       retcod = CAEN_DGTZ_WriteRegister(handle, CAEN_DGTZ_FRONT_PANEL_IO_CTRL_ADD, data);
       if ( retcod != CAEN_DGTZ_Success )
-        printf("[ERROR] CAEN_DGTZ_TRIG_OUT %s\n", retcod);
+        errors::PrintErrorV1730("CAEN_DGTZ_TRIG_OUT", retcod, false);
       
       printf("Link %d (%s) clock sent to TRIGOUT\n", link, boards[link].name);
       sleep(0.1);
       
       CAEN_DGTZ_CloseDigitizer(handle);
     }
-    else printf("[ERROR] Link %d CAEN_DGTZ_OpenDigitizer %d\n", link, retcod);      
+    else 
+    {
+      char desc[100];
+      snprintf(desc, sizeof(desc), "Link %d CAEN_DGTZ_OpenDigitizer", link);
+      errors::PrintErrorV1730(desc, retcod, false);
+    }     
   }
 }

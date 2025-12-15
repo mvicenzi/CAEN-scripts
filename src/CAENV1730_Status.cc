@@ -15,7 +15,14 @@ Description:
 #include "CAENVMEtypes.h"
 
 #include "PMTBoardDB.h"
-#include "Utilities.h"
+#include "Utils.h"
+#include "Errors.h"
+
+enum {
+  VERB_QUIET   = 0,
+  VERB_STATUS  = 1,
+  VERB_VERBOSE = 2
+};
 
 void PrintAcquisitionStatusLegend()
 {
@@ -32,7 +39,7 @@ void PrintAcquisitionStatusLegend()
 void GetAcquisitionStatus(int fHandle, int verbosity)
 {
   uint32_t data;
-  bool verb = verbosity > 0;
+  bool verb = verbosity > VERB_QUIET;
   auto retcod = CAEN_DGTZ_ReadRegister(fHandle,CAEN_DGTZ_ACQ_STATUS_ADD,&data);
   if ( retcod == CAEN_DGTZ_Success )
   {
@@ -48,7 +55,7 @@ void GetAcquisitionStatus(int fHandle, int verbosity)
     printf("Status     RUN: %d  DRDY: %d  BUSY: %d  CLK: %d  PLL: %d  RDY: %d  SHUT: %d\n",
            run, drdy, full, clk, pll, rdy, shut);
   }
-  else printf("    [ERROR] CAEN_DGTZ_ACQ_STATUS %d\n", retcod);
+  else errors::PrintErrorV1730("CAEN_DGTZ_ACQ_STATUS",retcod);
 }
 
 void PrintFailureStatusLegend()
@@ -71,17 +78,17 @@ void GetFailureStatus(int fHandle)
     temp = data & 0x0020;
     adc = data & 0x0040; 
   } 
-  else printf("    [ERROR] CAEN_DGTZ_FAILURE_STATUS %d\n",retcod);
+  else errors::PrintErrorV1730("CAEN_DGTZ_FAILURE_STATUS",retcod);
   
   retcod = CAEN_DGTZ_ReadRegister(fHandle,0xEF04,&data);
   if( retcod == CAEN_DGTZ_Success )
   {
     bus = data & 0x0004;
   }
-  else printf("    [ERROR] CAEN_DGTZ_READOUT_STATUS %d\n",retcod); 
+  else errors::PrintErrorV1730("CAEN_DGTZ_READOUT_STATUS",retcod); 
   
   if( pll || temp || adc || bus ) 
-      printf("Failure    PLL: %d  TEMP: %d  ADC: %d  BUS: %d\n", pll, temp, adc, bus); 
+      printf("\033[31mFailure\033[0m    PLL: %d  TEMP: %d  ADC: %d  BUS: %d\n", pll, temp, adc, bus); 
 }
 
 
@@ -104,20 +111,25 @@ void GetChannelStatus(int fHandle, int verbosity)
   for(size_t ch =0; ch<MAX_CHANNELS; ch++)
   { 
     auto err = CAEN_DGTZ_ReadTemperature(fHandle, ch, &(ch_temps[ch]));
-    if( err != CAEN_DGTZ_Success )
-      printf("    [ERROR] CAEN_DGTZ_ReadTemperature ch %d %d\n", ch, err); 
+    if( err != CAEN_DGTZ_Success ){
+      char desc[100];
+      snprintf(desc, sizeof(desc), "CAEN_DGTZ_ReadTemperature ch %zu", ch);
+      errors::PrintErrorV1730(desc, err);
+    }
     if( ch_temps[ch] > maxT ) maxT = ch_temps[ch];
 
     uint32_t chStatusAddr = 0x1088 + (ch<<8);
-    auto ret = CAEN_DGTZ_ReadRegister(fHandle, chStatusAddr, &(ch_status[ch]));
-    if( err != CAEN_DGTZ_Success )
-      printf("    [ERROR] CAEN_DGTZ_ReadChannelStatus ch %d %d", ch, err); 
-  
+    err = CAEN_DGTZ_ReadRegister(fHandle, chStatusAddr, &(ch_status[ch]));
+    if( err != CAEN_DGTZ_Success ){
+      char desc[100];
+      snprintf(desc, sizeof(desc), "CAEN_DGTZ_ReadChannelStatus ch %zu", ch);
+      errors::PrintErrorV1730(desc, err);
+    }  
   }
 
-  if( verbosity > 0 || maxT > 60 ) printf("    Max Temp. [C]: %d\n", maxT);
+  if( verbosity > VERB_QUIET || maxT > 60 ) printf("    Max Temp. [C]: %d\n", maxT);
   
-  bool verb = verbosity > 1; 
+  bool verb = verbosity > VERB_STATUS; 
   for(size_t ch =0; ch<MAX_CHANNELS; ch++)
   { 
     bool full = ch_status[ch] & 0x1;
@@ -142,7 +154,7 @@ int main(int argc, char **argv)
   int retcod, link, board, handle;
   board = 0; // Can be 0...7, but we only use one per optical chain
  
-  if ( verbosity > 1 ){ 
+  if ( verbosity > VERB_STATUS ){ 
     utils::CheckSoftwareReleases();
     PrintAcquisitionStatusLegend();
     PrintFailureStatusLegend();
@@ -157,7 +169,7 @@ int main(int argc, char **argv)
   {
     link = boards[i].link;
 
-    if(verbosity > 0) printf("----------------------\n");
+    if(verbosity > VERB_QUIET) printf("----------------------\n");
     printf("Optical link: %d - %s (fragmentID: %d, boardID: %d)\n",
             link, boards[i].name, boards[i].fragmentID, boards[i].boardID);
     
@@ -172,7 +184,7 @@ int main(int argc, char **argv)
       CAEN_DGTZ_CloseDigitizer(handle);
     }
     else if ( boards[i].fragmentID>0 ) //only if non-empty board
-      printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n", retcod);
+      errors::PrintErrorV1730("CAEN_DGTZ_OpenDigitizer",retcod,false);
   }
 
 }

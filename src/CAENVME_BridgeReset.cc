@@ -10,7 +10,8 @@ Description:
 #include <stdlib.h>
 
 #include "CAENVMEtypes.h"
-#include "Utilities.h"
+#include "Utils.h"
+#include "Errors.h"
 #include "PMTBoardDB.h"
 
 void BridgeReset(int link, int bridge)
@@ -54,7 +55,12 @@ void BridgeReset(int link, int bridge)
 
     CAENVME_End(BHandle);
   }
-  else printf("[ERROR] CAENVME_Init2 to cvA%d818 (link %d): %s\n",bridge,link,CAENVME_DecodeError(errcode)); 
+  else
+  {
+    char desc[100];
+    snprintf(desc, sizeof(desc), "CAENVME_Init2 to cvA%d818 (link %d)", bridge, link);
+    errors::PrintErrorVME(desc, errcode, false);
+  } 
 }
 
 /*--------------------------------------------------------*/

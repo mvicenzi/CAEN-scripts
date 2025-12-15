@@ -14,7 +14,8 @@ Description:
 #include "CAENDigitizerType.h"
 #include "CAENVMEtypes.h"
 
-#include "Utilities.h"
+#include "Utils.h"
+#include "Errors.h"
 #include "PMTBoardDB.h"
 
 void GetBoardInfo(int fHandle, int fLink, int bridge)
@@ -31,7 +32,8 @@ void GetBoardInfo(int fHandle, int fLink, int bridge)
            "    Firmware AMC: %s\n",
            info.ModelName, info.SerialNumber, info.ROC_FirmwareRel, info.AMC_FirmwareRel);
   }
-  else printf("[ERROR] CAEN_DGTZ_GetInfo %d\n",retcod);
+  else 
+    errors::PrintErrorV1730("CAEN_DGTZ_GetInfo",retcod,false);
 
   // A3818/A5818 firmware / driver
   short Device = 0;
@@ -66,7 +68,12 @@ void GetBoardInfo(int fHandle, int fLink, int bridge)
    
     CAENVME_End(BHandle);
   }
-  else printf("[ERROR] CAENVME_Init2 to cvA%d818 %s\n",bridge,CAENVME_DecodeError(errcode)); 
+  else
+  {
+    char desc[100];
+    snprintf(desc, sizeof(desc), "CAENVME_Init2 to cvA%d818 (link %d)", bridge, fLink);
+    errors::PrintErrorVME(desc, errcode, false);
+  } 
 
 }
 
@@ -100,7 +107,8 @@ int main(int argc, char **argv)
       GetBoardInfo(handle, link, bridge);
       CAEN_DGTZ_CloseDigitizer(handle); 
     }
-    else printf("[ERROR] CAEN_DGTZ_OpenDigitizer %d\n",retcod);
+    else 
+      errors::PrintErrorV1730("CAEN_DGTZ_OpenDigitizer",retcod,false);
   }
 
 }

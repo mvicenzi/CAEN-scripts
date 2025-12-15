@@ -14,7 +14,14 @@ Description:
 #include "CAENComm.h"
 
 #include "TPCBoardDB.h"
-#include "Utilities.h"
+#include "Utils.h"
+#include "Errors.h"
+
+enum {
+  VERB_QUIET   = 0,
+  VERB_STATUS  = 1,
+  VERB_VERBOSE = 2
+};
 
 void PrintStatusLegend()
 {
@@ -27,7 +34,7 @@ void PrintStatusLegend()
 void GetStatus(int handle, int link, int br, int verbosity)
 {
   uint32_t data;
-  bool verb = verbosity > 0;
+  bool verb = verbosity > VERB_QUIET;
   int retcod = CAENComm_Read32(handle, 0x1018, &data);
   if ( retcod == CAENComm_Success )
   {
@@ -42,15 +49,16 @@ void GetStatus(int handle, int link, int br, int verbosity)
   }
   else
   { 
-    printf("  Link %d - Board %d  - [ERROR] CAENComm_Read32 STATUS (0x1018) %d\n",
-          link, br, retcod);
+    char desc[100];
+    snprintf(desc, sizeof(desc), "Link %d - Board %d - CAENComm_Read32 STATUS (0x1018)", link, br);
+    errors::PrintErrorComm(desc, retcod, true, "  ");
   }
 }
 
 void GetTemperatures(int handle, int verbosity)
 {
   uint32_t data;
-  bool verb = verbosity > 1;
+  bool verb = verbosity > VERB_STATUS;
   int retcod = CAENComm_Read32(handle, 0x1108, &data);
   if ( retcod == CAENComm_Success )
   {
@@ -62,7 +70,7 @@ void GetTemperatures(int handle, int verbosity)
   }
   else
   { 
-    printf("    [ERROR] CAENComm_Read32 TEMPS (0x1108) %d\n", retcod);
+    errors::PrintErrorComm("CAENComm_Read32 TEMPS (0x1108)", retcod);
   }
 }
 
@@ -79,7 +87,12 @@ void CheckDaisyChain(int link, int nboards, int verbosity)
       GetTemperatures(handle,verbosity); 
       CAENComm_CloseDevice(handle);
     }
-    else printf("  Link %d - Board %d [ERROR] CAENComm_OpenDevice2 %d\n",link, br, retcode);
+    else
+    {
+      char desc[100];
+      snprintf(desc, sizeof(desc), "Link %d - Board %d - CAENComm_OpenDevice2", link, br);
+      errors::PrintErrorComm(desc, retcode, true, "  ");
+    } 
   }
 }
 
@@ -88,12 +101,12 @@ void CheckDaisyChain(int link, int nboards, int verbosity)
 int main(int argc, char **argv)
 {
   
-  int verbosity = 1;
+  int verbosity = VERB_STATUS;
   if ( argc > 1 ) verbosity = atoi(argv[1]);
 
   int link1, link2, nbr1, nbr2;
  
-  if ( verbosity > 1 ){ 
+  if ( verbosity > VERB_STATUS ){ 
     utils::CheckSoftwareReleases();
     PrintStatusLegend();
   }
