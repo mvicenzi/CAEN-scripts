@@ -48,6 +48,9 @@ target_link_libraries(CAENV1730_ClockPhaseOut PUBLIC ${CAENComm} ${CAENVME} ${CA
 add_executable(CAENV1730_ReadRegister src/CAENV1730_ReadRegister.cc)
 target_link_libraries(CAENV1730_ReadRegister PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
 
+add_executable(CAENV1730_Clear src/CAENV1730_Clear.cc)
+target_link_libraries(CAENV1730_Clear PUBLIC ${CAENComm} ${CAENVME} ${CAENDigitizer})
+
 # -------------------------------------
 
 add_executable(CAENA2795_BoardInfo src/CAENA2795_BoardInfo.cc)
